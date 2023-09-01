@@ -25,6 +25,11 @@ const defaultOptions = (cfg: GlobalConfiguration): Options => ({
 export default ((userOpts?: Partial<Options>) => {
   function RecentNotes(props: QuartzComponentProps) {
     const { allFiles, fileData, displayClass, cfg } = props
+
+    if(fileData.slug !== "index"){
+      return <></>
+    }
+
     const opts = { ...defaultOptions(cfg), ...userOpts }
     const pages = allFiles.filter(opts.filter).sort(opts.sort)
     const remaining = Math.max(0, pages.length - opts.limit)
