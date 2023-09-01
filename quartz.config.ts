@@ -3,14 +3,12 @@ import * as Plugin from "./quartz/plugins"
 
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Just An Odd",
+    pageTitle: "✍️学而不厌,诲人不倦",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-    },
+    analytics: null,
     baseUrl: "mr-odd.github.io",
-    ignorePatterns: ["private", "templates", ".obsidian", ".git", ".vimrc", ".wasm"],
+    ignorePatterns: ["private", "templates"],
     defaultDateType: "modified",
     theme: {
       typography: {
