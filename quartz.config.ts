@@ -3,7 +3,7 @@ import * as Plugin from "./quartz/plugins"
 
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "👋Hakuna Matata",
+    pageTitle: "🏡不如睡觉",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
