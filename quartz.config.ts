@@ -6,7 +6,7 @@ const config: QuartzConfig = {
     pageTitle: "🏡不如睡觉",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null,
+    analytics: { provider: 'google', tagId: "G-LKWRJFNC7D" },
     baseUrl: "mr-odd.github.io",
     ignorePatterns: ["private", "templates"],
     defaultDateType: "modified",
