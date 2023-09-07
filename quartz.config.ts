@@ -7,7 +7,7 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
-    baseUrl: "mr-odd.github.io",
+    baseUrl: "odd256.github.io",
     ignorePatterns: ["private", "templates"],
     defaultDateType: "modified",
     theme: {
