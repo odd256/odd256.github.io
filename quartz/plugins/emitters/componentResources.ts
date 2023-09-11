@@ -101,7 +101,7 @@ function addGlobalPageResources(
       const umamiScript = document.createElement("script")
       umamiScript.async = true
       umamiScript.src = "https://analytics.umami.is/script.js"
-      umamiScript.data-website-id = "${cfg.analytics.websiteId}"
+      umamiScript.["data-website-id"] = "${cfg.analytics.websiteId}"
   
       document.head.appendChild(umamiScript)
     `)
