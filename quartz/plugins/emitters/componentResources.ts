@@ -99,9 +99,9 @@ function addGlobalPageResources(
   } else if (cfg.analytics?.provider === "umami") {
     componentResources.afterDOMLoaded.push(`
       const umamiScript = document.createElement("script")
-      umamiScript.src = "https://analytics.umami.is/script.js"
-      umamiScript["data-website-id"] = "${cfg.analytics.websiteId}"
       umamiScript.async = true
+      umamiScript.src = "https://analytics.umami.is/script.js"
+      umamiScript.data-website-id = "${cfg.analytics.websiteId}"
   
       document.head.appendChild(umamiScript)
     `)
