@@ -15,7 +15,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "odd256.github.io",
     ignorePatterns: ["private", "templates", ".obsidian", ".wasm", ".vimrc"],
     defaultDateType: "modified",
     theme: {
