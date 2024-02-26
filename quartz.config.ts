@@ -11,9 +11,7 @@ const config: QuartzConfig = {
     pageTitle: "🪴 Just An Odd",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-    },
+    analytics: { provider: 'umami', host: 'odd256.github.io', websiteId: 'db7724bd-8a04-4538-99da-323b298aa71d' },
     locale: "en-US",
     baseUrl: "odd256.github.io",
     ignorePatterns: ["private", "templates", ".obsidian", ".wasm", ".vimrc"],
