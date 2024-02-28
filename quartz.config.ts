@@ -9,6 +9,7 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "🪴 Just An Odd",
+    tabTitle: "Hola, Amigo!",
     enableSPA: true,
     enablePopovers: true,
     analytics: { provider: 'umami', host: 'odd256.github.io', websiteId: 'db7724bd-8a04-4538-99da-323b298aa71d' },

@@ -1,10 +1,9 @@
 ---
 title: index
-tags:
-  - home page
+tags: [HomePage]
 publish: true
 created: 2023-12-23 23:00:00
-updated: 2024-02-28 17:16:25
+updated: 2024-02-29 01:24:39
 ---
 
 # 写在前面

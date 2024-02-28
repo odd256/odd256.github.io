@@ -1,10 +1,10 @@
 ---
 title: Obsidian 食用指北
 tags:
-  - writing
+  - Writing
 publish: true
 created: 2024-02-28 15:27:52
-updated: 2024-02-28 16:39:59
+updated: 2024-02-29 01:25:20
 ---
 
 # 插件分享

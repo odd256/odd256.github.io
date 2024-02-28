@@ -1,7 +1,7 @@
 ---
 title: Digital Garden 搭建方法
 tags:
-  - writing
+  - Writing
 publish: true
 created: 2023-02-26 16:00:00
 updated: 2024-02-28 16:39:51

@@ -4,7 +4,7 @@ import * as Component from "./quartz/components"
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
+  header: [Component.Comments()],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/odd256",
@@ -19,14 +19,13 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    Component.Comments()
   ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.Darkmode(),
-    Component.DesktopOnly(Component.RecentNotes()),
+    Component.DesktopOnly(Component.RecentNotes({linkToMore: "./tags", limit: 3})),
     Component.DesktopOnly(Component.Explorer()),
   ],
   right: [
@@ -44,7 +43,6 @@ export const defaultListPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.Darkmode(),
-    Component.DesktopOnly(Component.RecentNotes()),
     Component.DesktopOnly(Component.Explorer()),
   ],
   right: [],
