@@ -3,8 +3,8 @@ title: JavaScript
 tags:
   - JavaScript
 publish: true
-created: 2023-03-28T20:55
-updated: 2024-02-26T12:38
+created: 2023-03-28 20:00:00
+updated: 2024-02-28 17:20:01
 ---
 
 [JavaScript学习指南：JS入门教程（非常详细） (biancheng.net)](http://c.biancheng.net/js/)
