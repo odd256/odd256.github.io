@@ -1,10 +1,6 @@
 function sendMessage(message: { setConfig: { theme: string } }) {
     const iframe = document.querySelector('iframe.giscus-frame') as HTMLIFrameElement;
-    if (!iframe) {
-        console.log('hello world');
-
-        return;
-    }
+    if (!iframe) return;
     iframe.contentWindow?.postMessage({ giscus: message }, 'https://giscus.app');
 }
 document.addEventListener("themechange", (e) => {

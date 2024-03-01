@@ -4,7 +4,7 @@ tags:
   - Writing
 publish: true
 created: 2023-02-26 16:00:00
-updated: 2024-02-29 14:14:23
+updated: 2024-03-01 12:02:40
 ---
 
 # hexo 生成博客
@@ -70,11 +70,7 @@ export default (() => Comment) satisfies QuartzComponentConstructor
 // 为了实现动态颜色切换，必须重构部分样式
 function sendMessage(message: { setConfig: { theme: string } }) {
     const iframe = document.querySelector('iframe.giscus-frame') as HTMLIFrameElement;
-    if (!iframe) {
-        console.log('hello world');
-
-        return;
-    }
+    if (!iframe) return;
     iframe.contentWindow?.postMessage({ giscus: message }, 'https://giscus.app');
 }
 document.addEventListener("themechange", (e) => {
