@@ -1,9 +1,11 @@
 ---
 title: index
-tags: [HomePage]
+tags:
+  - HomePage
 publish: true
+share: true
 created: 2023-12-23 23:00:00
-updated: 2024-02-29 01:24:39
+updated: 2024-03-02 12:47:48
 ---
 
 # 写在前面
@@ -11,7 +13,7 @@ updated: 2024-02-29 01:24:39
 欢迎来到我的[数字花园](https://www.zhihu.com/question/400660802)，你也可以简单理解为一个博客随笔，所有知识内容都期望<mark style="background: #BBFABBA6;">按照图的形式进行关联</mark>，包括**CS 技术**、**数学笔记**、**个人随笔**等等，受限于自己当时的理解能力和个人精力，有些文章的内容可能质量不高、充满错误（某些随笔甚至没写完...），如果有疑问欢迎在随笔下方评论区留言~
 
 ---
-
+Test 123
 🍵喝杯茶，看看这些吧
 
 | 开发                                        | 瞎折腾                            | ML                                                |
