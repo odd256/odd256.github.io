@@ -5,7 +5,7 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-05 21:07:37
+updated: 2024-03-11 21:11:04
 ---
 
 参考资料：
@@ -307,7 +307,7 @@ fn first_word(s: &str)->usize{
 	- 开始索引就是切片的起始位置的索引值
 	- 结束索引就是切片的结束位置的下一个索引值
 - 类型：`&str`（比 `&String` 好用，同时可以接受字符串和切片类型）
-- 本质：切片保留了开始指针和长度，实际上是对变量的一种借用
+- 本质：切片保留了开始指针和长度，实际上是对变量的一种**借用**
 
 ```rust
 fn main() {
@@ -356,3 +356,175 @@ fn first_word(s: &str)->&str{
 > 1. 首先，调用 `first_word` 函数并传入 `sentence` 变量和之前一样
 > 2. 不一样的地方在于，之前返回值是 `usize` 类型，这是一个无符号整型，此时 `sentence` 还是可变变量类型；
 > 3. 而之后的改进版返回的是 `sentence切片` ，这时 `sentence` 直接转换为不可变变量（从可变变量转为不可变变量，之后不能再转为可变变量了），从而导致代码编译报错（使用切片，变量和切片就绑定了！）
+
+# Struct（结构体）
+
+有点像 **C 语言** 里的结构体概念，主要用于自定义的数据类型，为相关联的值命名，打包 $\implies$ 有意义的组合
+
+## 初始化操作
+
+```rust
+/*声明时需要包含：字段名称+类型*/
+struct User{
+    username: String,
+    age: u32,
+    email: String,
+    state: bool,
+}
+
+fn main() {
+	// 初始化实例
+    let user  = User{
+        age: 18,
+        username: String::from("odd"),
+        email: String::from("odd@hello.com"),
+        state: false,
+    };
+    // 
+    println!("{}", user.age); // 取值
+    user.username = String::from("xiaoxu"); // 赋值
+}
+
+```
+> [!caution]
+> 1. 实例的属性不可缺失，没有默认值
+> 2. 一旦 struct 是**可变的**，那么所有字段都是**可变的**（只能是整体可变或不可变，不能部分字段可变，部分字段不可变）
+
+```rust
+struct User{
+    username: String,
+    age: u32,
+    email: String,
+    state: bool,
+}
+
+fn main() {
+    let user = build_user(String::from("hello world"), String::from("123@over.com"));
+    print!("{}", user.username);
+}
+
+fn build_user(username: String, email: String)->User{
+    let user  = User{
+        age: 18,
+        username, // 简写
+        email: email,
+        state: false,
+    };
+    user
+}
+```
+
+在函数里可以这样使用 `struct` ，去构造一个结构体实例
+
+```rust
+struct User {
+    username: String,
+    age: u32,
+    email: String,
+    state: bool,
+}
+
+fn main() {
+    let u1 = User {
+        age: 18,
+        username: String::from("odd"),
+        email: String::from("email@example.com"),
+        state: false,
+    };
+    // 更新一个结构体
+    let u2 = User{
+        age: 30,
+        state: true,
+        ..u1 // 其他的值直接继承自u1
+    };
+}
+```
+
+## Tuple struct
+
+类似 tuple 的 struct，适用于：想给整个 tuple 起名，并让它不同于其它 tuple，而且又不需要给每个元素起名
+
+```rust
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+   // 虽然上面定义的两个tuple的字段类型都一致，
+   // 但是两者的实例不同，一个是Color的数组结构体，
+   // 一个是Point的数组结构体
+   let c = Color(0, 0, 0);
+   let p = Point(0, 0, 0);
+}
+```
+
+还有一种 unit-like struct，适用于：需要在某个类型上实现某个 trait，但里面又没有想要存储的数据（现在感觉用不上）
+
+## Struct 数据的所有权
+
+其实在学完了之前的内容时，我疑惑一个小点：
+
+```rust
+struct User{
+    username: String, // 为什么不能用&str
+    age: u32,
+    email: String, // 为什么不能用&str
+    state: bool,
+}
+```
+
+- `String` 类型为什么不能用切片 `&str` 来表示呢？
+	- 该 struct 实例必须拥有其所有数据，否则，如果是借用来的，如何保证不会出现野指针现象呢？
+	- 当然，struct 里也可以存放引用，但需要引入`生命周期`的概念（还没学），如果没使用`生命周期`则会报错
+
+## Struct 使用案例
+
+```rust
+#[derive(Debug)] // 这是一个注解
+struct Rectangle{
+    width: f32,
+    length: f32,
+}
+
+fn main() {
+    let rect = Rectangle{
+        width: 30.0,
+        length: 60.0,
+    };
+    let area = calculate_area(&rect);
+    println!("{}", area);
+    println!("{:#?}", rect); // 也可以用{:?}
+}
+
+fn calculate_area(rect: &Rectangle)->f32{ // 需要借用，后面在main函数还要输出
+    rect.width*rect.length
+}
+```
+> [!question]
+> 在这段代码中实现了一个计算长方形面积的函数，为了提高代码的可读性，我创建了一个 `Rectangle` 结构体，但是却无法打印出 `rect` 值，因为 `rect` 是一个结构体，默认没有实现 `Display` 的 `trait`，为了解决这个问题，我又引入了一个注解 `#[derive (Debug)]`，它可以让结构体 `Rectangle` 继承 `Debug` 的 `trait`，因而可以在 `"{:#?}"` 中打印出结果
+
+```rust
+#[derive(Debug)]
+struct Rectangle{
+    width: f32,
+    length: f32,
+}
+
+fn main() {
+    let scale = 2.0;
+    let rect = Rectangle{
+        width: dbg!(30.0*scale), // 这里直接返回所有权
+        length: 60.0,
+    };
+    dbg!(&rect); // 这里我们不希望dbg获取所有权，因此需要借用rect
+}
+```
+
+在上面这段代码中，使用了 `dbg!` 宏定义来打印部分值，`dbg!` 会获取表达式的所有权，而 `print!` 只获取值的引用
+
+> [!attention]
+> 1. `dbg!` 需要自行实现 `Debug` trait，它只适用于在调试的地方调用，作用有点像 `print!` 的调试版
+> 2. `dbg!` 输出到 `stderr`，而 `print!` 输出到 `stdout`
+
+# Method 方法
+
+在之前的学习中，我已经接触了 Function（函数）的用法，它是以 `fn` 关键字开头，并可以传入参数的代码组合，不过函数只能单独声明，而本章要讲的方法，可以被定义在 struct、enum 和 trait 的内部，并且像 Python 一样，它们永远都有一个默认参数 `self`，表示被调用的实例本身
