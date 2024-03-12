@@ -5,7 +5,7 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-11 21:11:04
+updated: 2024-03-12 17:02:13
 ---
 
 参考资料：
@@ -124,7 +124,7 @@ fn main() {
 }
 ```
 
-# 所有权*
+# Ownership \*（所有权）
 
 **所有权是 Rust 的核心**，它让 Rust 无需垃圾回收就可以轻松管理<mark style="background: #FF5582A6;">堆</mark>内存
 
@@ -473,7 +473,7 @@ struct User{
 ```
 
 - `String` 类型为什么不能用切片 `&str` 来表示呢？
-	- 该 struct 实例必须拥有其所有数据，否则，如果是借用来的，如何保证不会出现野指针现象呢？
+	- 该 struct 实例必须拥有其所有数据，否则，如果是借用来的，如何保证不会出现野指针现象呢？（除非一直不可变）
 	- 当然，struct 里也可以存放引用，但需要引入`生命周期`的概念（还没学），如果没使用`生命周期`则会报错
 
 ## Struct 使用案例
@@ -525,6 +525,336 @@ fn main() {
 > 1. `dbg!` 需要自行实现 `Debug` trait，它只适用于在调试的地方调用，作用有点像 `print!` 的调试版
 > 2. `dbg!` 输出到 `stderr`，而 `print!` 输出到 `stdout`
 
-# Method 方法
+## Struct 里的方法/函数
 
-在之前的学习中，我已经接触了 Function（函数）的用法，它是以 `fn` 关键字开头，并可以传入参数的代码组合，不过函数只能单独声明，而本章要讲的方法，可以被定义在 struct、enum 和 trait 的内部，并且像 Python 一样，它们永远都有一个默认参数 `self`，表示被调用的实例本身
+### Method （方法）
+
+在之前的学习中，我已经接触了 Function（函数）的用法，它是以 `fn` 关键字开头，并可以传入参数的代码组合，不过函数**只能单独声明**
+
+而本章要讲的方法，可以被定义在 struct、enum 和 trait 的内部，并且像 Python 一样，它们永远都有一个默认参数 `self`，表示被调用的实例本身
+
+```rust
+#[derive(Debug)]
+struct Rectangle{
+    width: f32,
+    length: f32,
+}
+
+impl Rectangle { // 通过实现Rectangle结构体进行方法声明
+    fn area(self) -> f32 {
+        self.width*self.length
+    }
+}
+
+fn main() {
+    let rect = Rectangle{
+        width: 30.0,
+        length: 60.0,
+    };
+    // 下面两者对调就会报错！
+    dbg!(&rect);
+    println!("The area of this Rectangle is {}", rect.area())
+}
+```
+
+> [!caution]
+> 在声明方法的参数里，可以填 `self` / `&self` / `&mut self` ，分别表示所有权剥夺和借用，因此如果想让上面的对调不报错，需要传入 `&self`，如果想要改变实例可以使用 `&mut self`
+
+> [!note]
+> 这里的 `self` 必不可少，在 C 语言中，实例变量和指针变量对结构体内容的调用是不同的，需要使用 `.` 或 `->` 连接，而在 Rust 中没有 `->` 操作，这是因为 self 在给定时就已经规定了是所有/借用操作了！
+
+### Associated function （关联函数）
+
+如果在定义方法时不传入 `self` 参数，那么这个方法就叫作关联函数，例如：`String::from()` 就是一个关联函数（有点类似 python 中的静态方法），主要用于创建构造器
+
+```rust
+#[derive(Debug)]
+struct Rectangle{
+    width: f32,
+    length: f32,
+}
+
+impl Rectangle {
+
+    fn square(size: f32) -> Rectangle {
+        Rectangle{
+            width: size,
+            length: size
+        }
+    }
+}
+
+fn main() {
+    let square = Rectangle::square(60.0);
+    println!("{:?}", square);
+}
+```
+> [!note]
+> `::` 符号除了可以调用关联函数，还可以给模块创建命名空间
+
+除此之外，也可以多次声明 `impl`
+
+```rust
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+```
+
+# Enum 枚举
+
+枚举允许我们列举所有可能的值来定义一个类型
+
+例如在计算机网络中，我们可以有 IPv4 和 IPv6 两种不同的类型，我们可以定义为：
+
+```rust
+enum IpAddrKind{
+    V4,
+    V6
+}
+```
+
+使用也很简单：
+
+```rust
+enum IpAddrKind{
+    V4,
+    V6
+}
+
+fn main() {
+    let network1 = IpAddrKind::V4;
+    let network2 = IpAddrKind::V6;
+    route(network1);
+    route(network2);
+}
+
+fn route(ip_kind: IpAddrKind){}
+```
+
+当然，还可以作为结构体的内部类型：
+
+```rust
+enum IpAddrKind{
+    V4,
+    V6
+}
+
+struct Network{
+    kind: IpAddrKind,
+    address: String
+}
+
+fn main() {
+    let local_network = Network{
+        kind: IpAddrKind::V4,
+        address: String::from("127.0.0.1"),
+    };
+    let loop_network = Network{
+        kind: IpAddrKind::V6,
+        address: String::from("::1"),
+    };
+}
+```
+
+枚举也可以拥有数据，例如上面的数据可以简化为：
+
+```rust
+enum IpAddrKind{
+    V4(u8, u8, u8, u8),
+    V6(String)
+}
+
+fn main() {
+    let local_network = IpAddrKind::V4(127, 0, 0, 1);
+    let loop_network = IpAddrKind::V6(String::from("::1"));
+}
+```
+> [!note]
+> 在枚举中嵌入数据有以下好处：
+> 1. 不需要额外使用 struct 定义简单类型
+> 2. 每个枚举变体可以拥有不同的类型和关联的数据量
+
+是的，枚举也可以有方法：
+
+```rust
+enum IpAddrKind{
+    V4(u8, u8, u8, u8),
+    V6(String)
+}
+
+impl IpAddrKind {
+    fn connect(&self){
+        println!("hello world");
+    }
+}
+
+fn main() {
+    let local_network = IpAddrKind::V4(127, 0, 0, 1);
+    local_network.connect();
+}
+```
+
+## Option 枚举
+
+Option 枚举定义于标准库的 Prelude 模块中（默认就可以直接使用），它描述了某个值可能存在（某种类型）或不存在的情况
+
+> [!note]
+> 需要注意的是，Rust 没有 Null 类型，在其他语言中，
+> - Null 是一个值，它表示为空
+> - 一个变量可以简单分为两种状态：空值（Null）和非空
+> 但从现在的角度来看，有 Null 并不是一件好事，因为它允许开发者引入 Null，如果你将空值像非空值一样使用时，这就会导致空指针异常的产生，这显然不利于程序的内存安全，你可能需要额外的代码处理 Null 的问题（或者你根本不知道你产生了Null）
+
+在 Rust 中，作者引入了 `Option<T>` 的概念，标准库中的定义是：
+
+```rust
+pub enum Option<T> {
+    /// No value.
+    #[lang = "None"]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    None,
+    /// Some value of type `T`.
+    #[lang = "Some"]
+    #[stable(feature = "rust1", since = "1.0.0")]
+    Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+}
+```
+
+即，包含了 None 和 Some 两个变量，在使用时，可以这样写：
+
+```rust
+fn main() {
+    let some_num = Some(13); // 声明一个i32类型Some变体
+    let some_str = Some("hello world"); // 声明一个&str类型Some变体
+    let unknow_num: Option<i32> = None; // 声明一个i32类型None变体，需要手动指定类型
+    let certain_num = 12;
+    let certain_num = certain_num + some_num; // 报错
+}
+```
+> [!note]
+> 这种方式的好处在于：
+> 1. Null 安全， T 类型和 Option\<T\>类型是不同类型，不可以把 Option\<T\>当成 T
+> 2. 若想使用 Option\<T\>中的 T，必须要进行转换
+> 这迫使开发者在开始就意识到了 Null 存在的可能性，并且及时处理，保证了内存的安全
+
+## Match
+
+`match` 是一个强大的控制流运算符，有点像 C 语言里的 `switch case`，对不同的情况执行不同的操作，例如下面这种匹配不同枚举的例子：
+
+```rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn main(){
+    let val = value_in_cents(Coin::Penny);
+    println!("The coin is {val}");
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => {
+            println!("This is Nickel!");
+            5
+        }, // 如果是函数可以这么使用
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+```
+
+当然，除了简单的枚举类型，也可以使用带绑定值的枚举类型
+
+```rust
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => {
+            println!("This is Nickel!");
+            5
+        }
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quarter from {:?}", state);
+            25
+        }
+    }
+}
+
+fn main() {
+    let c = Coin::Quarter(UsState::Alaska);
+    println!("{}", value_in_cents(c));
+}
+```
+
+同样，Option\<T\>也是可以直接使用的：
+
+```rust
+fn main() {
+    let num1 = Some(5);
+    let num2 = plus_one(num1);
+    let num3 = plus_one(None);
+    println!("{:?}", num2);
+    println!("{:?}", num3);
+}
+
+fn plus_one(x: Option<i32>)->Option<i32>{
+    match x {
+        Some(i) => Some(i+1),
+        None => None,
+    }
+}
+```
+> [!caution]
+> 使用 `match` 关键字进行匹配时，需要补全所有可能的情况
+
+```rust
+enum NumType {
+    Float(f32),
+    Integer(i32),
+    NotANum,
+}
+
+fn main() {
+    let num = NumType::Integer(32);
+    change_value(&num);
+}
+
+fn change_value(val: &NumType) -> i32 {
+    match val {
+        NumType::Float(_) => {
+            println!("This is Float");
+            0
+        }
+        NumType::Integer(i) => *i,
+        _ => -1,
+    }
+}
+
+```
+> [!note]
+> `_` 是一个通配符，可以代替其他没列出的值或是没使用的绑定数据
