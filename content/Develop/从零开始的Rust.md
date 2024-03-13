@@ -5,17 +5,17 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-13 18:25:20
+updated: 2024-03-13 18:56:28
 ---
 
-参考资料：
+> [!hint]
+> 参考资料：
+> - Video:  [Rust编程语言入门教程（Rust语言/Rust权威指南配套）【已完结】](https://www.bilibili.com/video/BV1hp4y1k7SV)
+> - Cookbook: [Rust 程序设计语言 - Rust 程序设计语言 简体中文版 (kaisery.github.io)](https://kaisery.github.io/trpl-zh-cn/)
 
-- Video:  [Rust编程语言入门教程（Rust语言/Rust权威指南配套）【已完结】](https://www.bilibili.com/video/BV1hp4y1k7SV)
-- Cookbook: [Rust 程序设计语言 - Rust 程序设计语言 简体中文版 (kaisery.github.io)](https://kaisery.github.io/trpl-zh-cn/)
-
-# 写在前面
-
-这是一篇长文，是我一步一步从零开始学习 Rust 的记录博文，参考书籍和视频内容可见上方参考资料，由于我之前学习过一点 C 语言、Python 和 Java，因此文章中我可能会从其他语言的角度解释 Rust，以便更好理解 Rust 的特性
+> [!summary]
+> 这是一篇长文，记录我一步一步从零开始学习 Rust 的过程和一些思考，这篇文章会持续更新~
+> 此外，由于我之前学习过一点 C 语言、Python 和 Java，因此文章中我可能会从其他语言的角度解释 Rust，以便更好理解 Rust 的特性
 
 # 程序：猜数游戏
 
@@ -962,6 +962,8 @@ mod front_of_house{
     }
 }
 ```
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/202403131847630.png)
+
 > [!note]
 > `src/main.rs` 或 `src/lib.rs` 中的内容形成了名为 crate 的模块，位于整个模块树的根部
