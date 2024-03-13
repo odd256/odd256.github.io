@@ -4,7 +4,7 @@ tags:
   - Writing
 publish: true
 created: 2023-02-26 16:00:00
-updated: 2024-03-02 16:18:07
+updated: 2024-03-01 12:02:40
 ---
 
 # hexo 生成博客
@@ -27,10 +27,7 @@ updated: 2024-03-02 16:18:07
 
 为了能够更好地利用 Obsidian 的特性，我决定改变博客搭建的架构，转向 [quartz](https://github.com/jackyzha0/quartz)（其实是自己太菜😭，没办法自己写插件解决上面提到的问题）
 
-quartz 对 Obsidian 的支持度很高，同时支持 Obsidian 中的 `graph view` 和 `backlink` 功能，基本原理和 hexo 类似，都是通过对笔记处理，生成静态网页进行发布，使用 GitHub Pages 功能可以直接进行博客的部署
-> [!caution]
-> 不过需要注意，默认会把所有文件都放到 git 下进行管理，~~因此如果你有私密的笔记，还是建议你进行分开管理~~，如果你有私密的笔记，可以通过 Obsidian 插件 Github Publisher 进行管理，并选择是否上传至远程仓库
-
+quartz 对 Obsidian 的支持度很高，同时支持 Obsidian 中的 `graph view` 和 `backlink` 功能，基本原理和 hexo 类似，都是通过对笔记处理，生成静态网页进行发布，使用 GitHub Pages 功能可以直接进行博客的部署，不过需要注意，默认会把所有文件都放到 git 下进行管理，因此如果你有私密的笔记，还是建议你如上[发布方法](#^531d74)进行分开管理
 
 quartz 的 Component（组件） 使用：
 1. **umami（流量监控）**，为了监控 Digital Garden 的流量信息，我采用了免费开源的 umami 进行数据监控，相关配置信息可以参考 [Configuration (jzhao.xyz)](https://quartz.jzhao.xyz/configuration)
