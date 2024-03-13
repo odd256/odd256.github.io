@@ -5,13 +5,17 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-12 17:02:13
+updated: 2024-03-13 18:25:20
 ---
 
 参考资料：
 
 - Video:  [Rust编程语言入门教程（Rust语言/Rust权威指南配套）【已完结】](https://www.bilibili.com/video/BV1hp4y1k7SV)
 - Cookbook: [Rust 程序设计语言 - Rust 程序设计语言 简体中文版 (kaisery.github.io)](https://kaisery.github.io/trpl-zh-cn/)
+
+# 写在前面
+
+这是一篇长文，是我一步一步从零开始学习 Rust 的记录博文，参考书籍和视频内容可见上方参考资料，由于我之前学习过一点 C 语言、Python 和 Java，因此文章中我可能会从其他语言的角度解释 Rust，以便更好理解 Rust 的特性
 
 # 程序：猜数游戏
 
@@ -858,3 +862,106 @@ fn change_value(val: &NumType) -> i32 {
 ```
 > [!note]
 > `_` 是一个通配符，可以代替其他没列出的值或是没使用的绑定数据
+
+## if let
+
+```rust
+fn main() {
+    let num = Some(3);
+    if let Some(2) = num{
+        println!("The num is 3");
+    }else {
+        println!("The num is not 3");
+    }
+}
+```
+
+除了使用 `match`，rust 还提供了更简单的使用方式：`if let`，使用 `if let` 可以提供简单的判断，仅当条件满足时才运行，否则直接忽略
+
+> [!note]
+> `if let` 的优点如下：
+> 1. 只关心一种匹配情况，而忽略其他匹配
+> 2. 更少的代码，更少的缩进，更少的模板代码
+> 3. 更像是 match 的语法糖
+> 4. 可以搭配 `else` 使用
+
+# 模块化
+
+> [!note]
+> Rust 的模块系统包括：
+> - Package：表示一个 Cargo 的 trait，可以进行构建、测试、共享 crate 
+>	- Crate：一个模块树，它可以产生一个 library 或可执行文件
+>		- Module、use：让你控制代码的组织、作用域、私有路径
+>			- Path：为 struct、function 或 module 等命名的方式
+
+## Package 和 Crate
+
+![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/202403131645472.png)
+
+前面提到，在创建项目时，我们会使用 `cargo new project_name` 命令来创建 Package，Package 的名称就是 `project_name`
+
+一个 Package 的结构大概是这样的：
+
+- project_name
+	- src 源文件
+		- `main. rs` 入口文件
+	- target 编译的二进制代码
+	- `Cargo. lock` 真正的包管理文件，自动生成的
+	- `Cargo. toml` 项目配置文件
+
+```toml
+# 这是Cargo.toml文件
+[package]
+name = "rust_playground"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+```
+> [!note]
+> 然而，在 `Cargo. toml` 中，并没有配置入口文件地址，这是因为：
+> - `src/main. rs` 是默认的 binary crate 的 crate root
+> - crate 名与 package 名相同
+> 
+> 如果项目中包含 `src/lib.rs`，则：
+> - package 包含一个 library crate
+> - `src/lib.rs` 是 library crate 的 crate root
+> - crate 名与 package 名相同
+> 
+> 最后，Cargo 会把 crate root 文件交给 rustc 来构建 binary 或 library
+
+> [!summary]
+> 一个 Package 可以有多个 binary crate：
+> - 文件放在 `src/bin` 目录下
+> - 每个文件是单独的 binary crate
+> 拥有 crate 可以将相关功能组合到一个作用域内，并防止包内的命名冲突，例如在访问 `rand` crate 时，我们需要访问它的名字 `rand` 才能继续调用相关 trait
+
+## Module
+
+Module 的特性如下：
+
+- 在一个 crate 内，将代码进行分组
+- 增加可读性，易于复用
+- 控制项目（item）的私有性：`public`、`private`
+
+```rust
+// src/lib.rs
+// Module支持嵌套
+mod front_of_house{
+    mod hosting{
+        fn add_to_waitlist(){}
+        fn seat_at_table(){}
+    }
+
+    mod serving {
+        fn take_order(){}
+        fn servve_order(){}
+        fn take_payment(){}
+    }
+}
+```
+![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/202403131847630.png)
+> [!note]
+> `src/main.rs` 或 `src/lib.rs` 中的内容形成了名为 crate 的模块，位于整个模块树的根部
