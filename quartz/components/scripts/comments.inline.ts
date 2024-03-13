@@ -17,9 +17,9 @@ document.addEventListener("themechange", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
     const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
     const currentTheme = localStorage.getItem("theme") ?? userPref
-    if (currentTheme === "dark") {return} // default is dark theme
+    if (currentTheme === "light") {return} // default is light theme
   
-    const theme = currentTheme === "light" ? "light_protanopia" : "dark_protanopia"
+    const theme = currentTheme === "light" ? "light" : "dark"
   
     const existingGiscusContainer = document.getElementById('giscus-container');
   
