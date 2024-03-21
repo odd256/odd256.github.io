@@ -5,9 +5,8 @@ tags:
   - 配置
 publish: true
 created: 2023-02-08 01:04:00
-updated: 2024-02-28 15:29:28
+updated: 2024-03-20 01:30:33
 ---
-
 
 # 安装 WSLg
 
@@ -20,6 +19,7 @@ sudo apt install gedit -y
 ```
 
 在vscode中可以运行matplotlib：
+
 ![](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/Pasted%2520image%252020221121213950.png)
 
 # 安装 MySQL
@@ -132,6 +132,7 @@ socket   = /var/run/mysqld/mysqld.sock
 CFW 的配置较为简单，需要分别打开 `Allow LAN` 按钮和 `System Proxy` 按钮
 
 难点在 WSL 里的代理设置，设置代码如下：
+
 ```shell
 ###
 # 由于wsl的ip地址是随机分配的，
@@ -156,6 +157,7 @@ alias unsetp='unset https_proxy; unset http_proxy; unset all_proxy; unset ALL_PR
 ```
 
 将内容添加到 `~/.zshrc` 文件中，并输入 `source .zshrc` 进行环境变量刷新
+
 使用 `curl www.google.com -v` 可以测试代理是否正常工作
 
 ## 我踩到的坑
@@ -163,6 +165,7 @@ alias unsetp='unset https_proxy; unset http_proxy; unset all_proxy; unset ALL_PR
 在做完上述步骤后，使用测试命令 `curl www.google.com -v` 并没有成功输出，反而是一直卡在连接步骤，后来查询资料后发现是没有配置 windows 防火墙！
 
 防火墙配置步骤：
+
 - 找到设置位置：控制面板->系统和安全->Windows Defender 防火墙->允许应用通过 Windows 防火墙
 - **点击更改设置**，选中 CFW 应用，并**点击下方确定按钮保存**
 	![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230501010857.png)
@@ -172,6 +175,7 @@ alias unsetp='unset https_proxy; unset http_proxy; unset all_proxy; unset ALL_PR
 # WSL 调用摄像头
 
 在 windows 下，摄像头可以通过 python 的 opencv 库进行访问，但是相同的代码移动到 WSL 后，会提示找不到摄像头设备，因此我们需要通过一定的方法打通 windows->WSL 的摄像头数据流，最终我采用的方案是 ffmpeg
+
 [WSL2 中获取摄像头数据流 – IYATT-yx 的博客](https://blog.iyatt.com/?p=10249)
 
 ## 配置 ffmpeg
@@ -206,6 +210,7 @@ alias unsetp='unset https_proxy; unset http_proxy; unset all_proxy; unset ALL_PR
 ##  WSL 访问摄像头数据流
 
 因为已经是 udp 数据流了，因此访问的方法有很多，下面以 opencv-python 为例：
+
 ```python
 import cv2
 
