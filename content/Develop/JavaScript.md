@@ -4,7 +4,7 @@ tags:
   - JavaScript
 publish: true
 created: 2023-03-28 20:00:00
-updated: 2024-02-28 17:20:01
+updated: 2024-03-11 21:00:47
 ---
 
 [JavaScript学习指南：JS入门教程（非常详细） (biancheng.net)](http://c.biancheng.net/js/)
@@ -12,6 +12,7 @@ updated: 2024-02-28 17:20:01
 # 变量提升
 
 JavaScript在预编译期会预处理声明的变量，但是变量的赋值操作发生在JavaScript执行期。
+
 ```javascript
 	document.write(str); // undefined
 	str = '123';         
@@ -24,6 +25,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 # let和const关键字
 
 在ECMAScript6中，新增了`let`和`const`两个关键字声明变量，其中：
+
 1. `let`只在代码块内有效（类似局部变量），且代码块内不允许重复声明
 	![Pasted image 20221119140624](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/Pasted%20image%2020221119140624.png)
 2. `const`和`let`用法基本一致，但const为常量，声明时就要赋初值
@@ -35,6 +37,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 - 引用数据类型：Object、Array、Function
 
 使用`typeof()函数`可以轻松查看数据类型：
+
 ```javascript
 	<script>
 	    let str = '123'
@@ -61,7 +64,6 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
         console.log(a1==a2) // out: false
      </script>
   ```
-
 
 ## 引用数据类型
 
@@ -170,6 +172,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 **注意**：`switch`语句采用`===`来匹配`case`
 
 ## for in
+
 - 主要用来遍历对象，==不适用于带键值对的类型==，例如`Array`
 ```javascript
     let person = ['xiaowang', 'xiaofang', 'xiaoli']
@@ -179,6 +182,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 ```
 
 ## for of
+
 - ES6中新增加的一种for变体，可以用来遍历Array
 ```javascript
     let person = ['xiaowang', 'xiaofang', 'xiaoli']
@@ -245,6 +249,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 ```
 
 当然，你也可以一次性返回多个值，但是需要用数组包装一下：
+
 ```javascript
     function hello(a = 'hello', b = 123) {
         console.log(a+' '+b);
@@ -374,6 +379,7 @@ JavaScript在预编译期会预处理声明的变量，但是变量的赋值操�
 ```
 
 # JS对象
+
 JavaScript是一个面向对象编程的语言，因此JavaScript中都是对象
 
 ## 创建对象
@@ -441,6 +447,7 @@ JavaScript是一个面向对象编程的语言，因此JavaScript中都是对象
 ## 删除对象属性
 
 使用`delete`语句来删除对象中的属性：
+
 ```JS
     let person = {
         'name': 'xiaozhang'
@@ -488,6 +495,7 @@ JavaScript是一个面向对象编程的语言，因此JavaScript中都是对象
 | y      | “粘性”搜索，匹配从目标字符串的当前位置开始 | 
 
 ### 定义正则表达式
+
 | 特殊字符 | 含义                                                                                                                                            |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | \\       | 转义字符                                                                                                                                        |
@@ -508,13 +516,17 @@ JavaScript是一个面向对象编程的语言，因此JavaScript中都是对象
 ### 使用正则表达式
 
 偷懒ing :)
+
 ![Pasted image 20221120200656](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/Pasted%20image%2020221120200656.png)
 
 # Web相关对象 
+
 ## JS DOM
+
 > 当网页加载时，浏览器就会自动创建当前页面的文档对象模型（DOM）。在 DOM 中，文档的所有部分（例如元素、属性、文本等）都会被组织成一个逻辑树结构（类似于族谱），树中每一个分支的终点称为一个节点，每个节点都是一个对象。
 
 ### Document对象
+
 > 当浏览器加载一个 HTML 文档时，会创建一个 Document 对象，Document 对象是 DOM 树中所有节点的根节点。通过 Document 对象我们可以访问 HTML 文档中的所有元素
 
 ## JS Element对象
@@ -538,6 +550,7 @@ window 对象是 BOM 的核心，用来表示当前浏览器窗口，其中提�
 > JavaScript navigator 对象中存储了与浏览器相关的信息，例如名称、版本等，我们可以通过 window 对象的 navigator 属性（即 window.navigator）来引用 navigator 对象，并通过它来获取浏览器的基本信息。
 
 ## JS Screen
+
 > JavaScript screen 对象中包含了有关计算机屏幕的信息，例如分辨率、宽度、高度等，我们可以通过 window 对象的 screen 属性来获取它
 
 ## JS Location对象
@@ -638,7 +651,6 @@ try {
 | TypeError      | 类型错误，当使用的值不是预期类型时，会抛出该错误             |
 | URIError       | URI 错误，当使用 URI 相关函数但传入 URI 参数时，会抛出该错误 |
 | ReferenceError | 参数错误，当尝试使用未定义的变量、函数、对象时，会抛出该错误 | 
-
 
 # JS闭包
 
