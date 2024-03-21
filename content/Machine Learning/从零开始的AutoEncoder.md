@@ -5,7 +5,7 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-03-20 15:00:00
-updated: 2024-02-28 17:19:15
+updated: 2024-03-07 15:27:43
 ---
 
 - 参考资料：
@@ -18,21 +18,25 @@ updated: 2024-02-28 17:19:15
 ## 什么是自编码器（Auto-encoder）？
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320155108.png)
+
 自编码器是在**无监督学习**领域的一个方法，对于一个输入的元素，经过编码器（可能就是一个简单全连接）后，生成了一个输出`code`，`code`的维度通常会**比输入小**，从而达到**压缩特征**的效果
 
 但只有单一的输出是无法进行无监督学习的，因此我们引入了**解码器**来完成自监督的学习
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320155638.png)
+
 输入一个 code，通过一个解码器，输出一个元素，目的是通过 code 重构出原始的输入对象
 
 ## 从 PCA 看自编码器
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320160544.png)
+
 在 PCA 中，我们通过最小化输入和输出的损失，来训练中间的隐藏层（这个隐藏层也被叫做 bottleneck，因为通常**隐藏层比输入小很多**）
 
 ## 深层的自编码器
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320160904.png)
+
 深层的自编码器和普通的神经网络没什么区别，但问题是这种方式**训练效果通常不好**，且必须使用**RBM 进行初始化**
 
 > [!note]
@@ -42,17 +46,21 @@ updated: 2024-02-28 17:19:15
 ### 相似文本
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320164511.png)
+
 如果不使用自编码器，对所有的单词进行`one-hot编码`，得到的向量只能表示单词，并不能表示句子的内在关系，通过 AE 的方式，可以让网络提取出句子的关联特征，上图中`code`的可视化效果表明：自编码器成功将文章进行分类（通过计算`code`特征向量的相似度来判断是否属于同一类），能够在 2 维空间中得到较好的向量表示
 
 ### 相似图片
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320181727.png)
+
 通过无监督学习，从而比较图片中的`code`特征向量，得到了不错的结果：
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320181852.png)
 
 ### 预训练
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320182147.png)
+
 对一个网络反复使用自编码器的结构，训练中间的 code 作为该层的权重，在最后 500 和 10 的层中直接进行 random initial 进行反向传播训练
 
 这种方法适用于**标注数据较少，网络较大**的情况，这时如果一个初始化权重较好的网络，可能会学到比较好的结果
@@ -65,6 +73,7 @@ updated: 2024-02-28 17:19:15
 ### De-noising Auto-encoder
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230320183332.png)
+
 在输入前对$x$进行加噪，变成$x'$放入网络中，最后用$x$和$y$计算损失函数，这样做可以让结果有更好的 robust
 
 ### Contractive Auto-encoder
@@ -78,10 +87,13 @@ updated: 2024-02-28 17:19:15
 目标：让模型生成一个图片，每次生成一个 pixel，迭代 n 次，生成一个有 n 个像素的图片
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230321220933.png)
+
 根据**隐马尔可夫链假设**，提取前$n-1$个 pixel 像素，去预测第$n$个像素点；好处是可以进行**无监督学习**，只要是图片数据，无需打标就可以使用
 
 这种方式不仅可以应用在图像上，在声音、视频领域同样有应用：
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324193229.png)
+
 如上图所示的 WaveNet 就提供了一个新的语音生成的方式，同样是利用了隐马尔科夫链的概念，利用前一段的时间信息，预测出下一个输出
 
 ## Variational Auto-encoder
@@ -89,11 +101,13 @@ updated: 2024-02-28 17:19:15
 [参考视频](https://www.bilibili.com/video/BV1Gx411E7Ha?t=1162.8&p=34)
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324210455.png)
+
 考虑 AE 的一种应用：在训练好后，我希望能使用 NN Decoder，对于一个随机生成的 code 都会 decode 出一个较好的图像，但在尝试过后发现这种方法的效果其实很差...
 
 因此提出了 VAE 的方法，使用了若干 tricks 让结果看起来很好
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324210949.png)
+
 VAE 与 AE 相比，有如下不同：
 
 1. NN Encoder 输出了三个三维的向量，分别为$m_i, \sigma_i, e_i$，其中$e_i$为一个正态分布
@@ -103,13 +117,17 @@ VAE 与 AE 相比，有如下不同：
    2. 最小化$\sum\limits^3_{i=1}(1+\sigma_i - (m_i)^2 - exp(\sigma_i))$
 
 为了能够生成可控的结果，我们需要做如下假设：
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324212556.png)
+
 假设 code 为 10 维，那么通过定量分析，我们固定其中 8 维，选取其中 2 维并将结果进行比较，确定出这 2 维数据的变化对最后的生成结果的影响（比如这 2 维就是控制图片的亮度、对比度等等），我们希望通过这种方式控制 code 中的参数，从而控制 VAE 的生成结果
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324213420.png)
 
 当然，也可以把模型应用在文本领域：
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230324213627.png)
+
 作者通过一段文本的无监督学习，得到了一个训练好的 VAE，然后对于任意两个句子，可以在**code space**中得到两个点，在两点的连线中可以获得一些生成的结果...（这段感觉有点像诗人根据两个句子，然后联想出诗句的过程？）
 
 ### Intuitive Reason
@@ -117,12 +135,15 @@ VAE 与 AE 相比，有如下不同：
 [参考视频](https://www.bilibili.com/video/BV1Gx411E7Ha?t=39.5&p=35)
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230325164958.png)
+
 普通 Auto-Encoder 的缺点：**非线性模型**，导致最后的生成结果难以控制
+
 如图中==左边例子所示==，input：满月图片，output：满月图片；input：半月图片，output：半月图片；如果在 code 中，取满月 code 和半月 code 的平均值并输出，我们期望能得到一个弦月图片（然而一般的 AE 很难做到这一点）
 
 相比之下，VAE 通过在 code 层添加噪声（正态分布$e$），保证在一定范围内输出与输入一致，如图中==右边例子所示==，通过最小化损失函数，我们可以推断出，**中间的输出既是满月又是半月**，从而优化了输出结果的线性表示能力
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230325174010.png)
+
 图中$\sigma_i$学习的就是输入图片的 variance，即由模型自己学习应该添加多少噪声来保证输出最后的输出与输入一致，$\sigma_i$取$\exp$是因为 variance 是正数
 
 但如果仅仅只有 reconstruction error（最小化输入和输出的误差）是不够的，因为会容易得到$\sigma_i \to -\infty$，即 variance 趋近于 0，这样网络又退化成 Auto-encoder 了
@@ -130,8 +151,11 @@ VAE 与 AE 相比，有如下不同：
 因此需要再添加一个损失函数，即$\sum\limits^3_{i=1} (\exp(\sigma_i)-(1+\sigma_i)+(m_i)^2)$
 
 前面两项$\exp(\sigma_i)-(1+\sigma_i)$在二维图像中的表示如下：
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230325175917.png)
+
 最小化损失函数的过程即 $\sigma_i\to0$，这样就保证了 $variance \to 1$，从而避免了网络的“退化”
+
 $(m_i)^2$则是一个正则项，防止过拟合
 
 ### Mathematical derivation⭐
@@ -139,14 +163,17 @@ $(m_i)^2$则是一个正则项，防止过拟合
 [参考视频](https://www.bilibili.com/video/BV1Gx411E7Ha?t=588.3&p=35)
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230326194219.png)
+
 如果把每个图片看作高维空间中的一个点，那么所有的宝可梦图片在高维空间内就会呈现出一个概率分布，如果我们能够找到这个概率分布$P(x)$，就可以取概率分布高的地方作为输入，从而得到一个近似的输出
 
 #### Gaussian Mixture Model
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230327220440.png)
+
 从几何分布的角度上讲，高斯混合模型假设分布$P(x)$由 K 个高斯分布叠加而成，每个高斯分布都有相应的权重
 
 从概率学的角度分析，存在一个 latent variable（潜在变量）m，它是一个**离散的**随机变量，表示对应的样本$x$是由第 m 个高斯分布生成的概率。
+
 举个例子，假设$m$满足如下分布：
 
 | $m$    | 1     | 2     | ... | K     |
@@ -158,6 +185,7 @@ $(m_i)^2$则是一个正则项，防止过拟合
 #### Distributive Representation
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230327223535.png)
+
 在 VAE 中，
 
 1. sample 一个$z$，$z$是来自（0，1）高斯分布的一个向量，向量中的每个值代表一种特征
@@ -174,9 +202,11 @@ $(m_i)^2$则是一个正则项，防止过拟合
 #### Maximizing Likelihood
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328142944.png)
+
 用概率模型来解释神经网络的过程，就是根据已知数据 x，**最大化**函数$\int_{z} p(z)P(x|z) \, dz$，其中$\mu(z)，\sigma(z)$都是未知的，都是我们需要通过机器学习学习到的
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328151621.png)
+
 这部分是公式的推导过程，在这个过程中$D_{KL}=(q(z|x)||P(z|x)) \geq 0$，要保证$\log P(x)$最大，因此剩余部分$\int_{z} q(z|x)\log\left( \frac{P(x|z)P(z)}{q(z|x)} \right) \, dz$就称为$L$的下边界（lower bound $L_{b}$），问题就转化为求$max(L_{b})$
 
 除此之外，公式中还多出了变量$q(z|x)$，它表示的是 Auto Encoder 中的 encoder；同理，$P(x|z)$表示的是decoder
@@ -185,24 +215,29 @@ $(m_i)^2$则是一个正则项，防止过拟合
 > $L_{b}$仅表示其$\log$似然的下边界，如果仅优化参数$P(x|z)$对下边界求极大值，可能会导致边界变大，但实际似然估计值变小的情况
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328151706.png)
+
 > [!note]
 > 使用$q(z|x)$后，很好的解决了上述的问题
 > $\log p(x)=\log \int_{z} P(z)P(x|z) \, dz$仅和$P(x|z)$有关，因此若仅优化参数$q(z|x)$会使$\log P(x)$不变，$L_{b}$变大，$KL$变小，从而使$L_{b}$更接近$\log P(x)$
 
 #### Connection with Network
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328151735.png)
+
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328152534.png)
+
 最后结合神经网络的实现，就可以得到相关损失函数的结论了
 
 ### Conditional VAE
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230408130945.png)
-输入数字图片和其标签（Condition），生成带有同风格的其它数字
 
+输入数字图片和其标签（Condition），生成带有同风格的其它数字
 
 ### VAE的问题
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230328173759.png)
+
 VAE 更适用于风格的模仿，并没有学习到生成的规则
 
 ### 库克距离*
@@ -235,7 +270,9 @@ $D_i=\frac{\sum_{j=1}^n(\hat{y}_j-\hat{y}_{j(i)})^2}{p\times MSE}\times\frac{h_{
 ### 演化过程
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230408133856.png)
+
 一个 GAN 由两个部分组成：**Generator** 和 **Discriminator**，以图片生成任务为例，<mark style="background: #BBFABBA6;">Generator 可以生成一个图片，Discriminator 可以判别图片</mark>，具体步骤如下：
+
 1. 由 Generator v1 生成图片
 2. 交由 Discriminator v1 判断与真实图片（真实图片已给出）的距离（error）
 3. <mark style="background: #ADCCFFA6;">更新 Discriminator v1 参数</mark>，目的是让 Discriminator 能够判断出哪个是 Generator v1 生成的，哪个是真实图片
@@ -247,19 +284,23 @@ $D_i=\frac{\sum_{j=1}^n(\hat{y}_j-\hat{y}_{j(i)})^2}{p\times MSE}\times\frac{h_{
 ### Discriminator
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230408140758.png)
+
 判别器的定义和传统的神经网络二分类类似，生成图片标注 0，真实图片标注为 1，输入一张图片，需要输出 0/1 来判断这张图片是生成图片还是真实图片
 
 ### Generator
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230408142324.png)
+
 生成器部分最不同的就是参数的更新，我们把 Generator 和 Discriminator 看作一个整体，是一个更大的神经网络，然后进行反向传播，不同的是我们在<mark style="background: #FF5582A6;">反向传播时要 freeze 判别器的权重，只更新生成器的</mark>
 
 ### 举个🌰
 
 ![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230408143812.png)
+
 z 是一个一维的均匀分布的随机采样，经过生成器得到 x ，x 的概率分布如图中绿色曲线所示，黑色离散点分布是真实数据的抽样情况，根据 GAN 的定义，需要将 x 与真实数据进行对比，计算距离损失，并更新判别器的参数，从第二个图表中可以看出判别器认为靠右的数据可能是假的；之后固定判别器参数，更新生成器参数... 一直进行下去直到两个分布趋于一致
 
 <mark style="background: #FF5582A6;">GAN 的缺点：</mark>
+
 1. 生成器和判别器的对抗程度无法确定（有可能判别器很强，生成器一直没办法骗过判别器）
 2. 虽然在这个例子中最后重合了，但也可能会出现一开始绿色曲线左移，逐渐贴合真实数据，然后一次大右移又远离真实数据
 
