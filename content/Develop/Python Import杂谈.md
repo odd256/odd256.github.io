@@ -4,7 +4,7 @@ tags:
   - Python
 publish: true
 created: 2023-03-14 19:00:00
-updated: 2024-02-28 17:19:52
+updated: 2024-03-05 17:49:06
 ---
 
 - 参考资料：
@@ -22,9 +22,11 @@ updated: 2024-02-28 17:19:52
 - Package 表示的是包，通常是一个层级目录，在操作系统中，对应的是一个**文件夹**
 
 在官方文档的描述中，Package就比Module多了一个`__path__`属性
+
 在 Python3中，一个文件夹就是一个 Package，不需要 `__init__.py` 文件
 
 __init__.py 通常出现在 Package 中，当在 Python 文件中导入 Package 时，先找到对应的 Package，然后查看是否存在__init__.py 这个文件，如果有就运行，如果没有就不运行
+
 > [!attention]
 > 注意：如果只引入 Package，不会自动导入该 Package 下的 Module，如果需要使用 Module，需要 `import package.module`
 
@@ -44,6 +46,7 @@ __init__.py 通常出现在 Package 中，当在 Python 文件中导入 Package 
 - from ... import ... as ... ：以上两种的组合
 
 ## 绝对引入和相对引入
+
 - 绝对引入：在写入时需要添加 Pacakge 名和 Module 名，例如 `import mypackage.mymodule`，但如果我们修改了 Package 名，则这里的 `mypackage` 也得相应修改
 - 相对引入：在同一个 Package 下，可以使用 `import .mymodule` 来对模块进行引用，这样的好处是：如果修改了包名，但内部的相对位置不变，是不需要重新 `import` 的
 
@@ -53,6 +56,7 @@ __init__.py 通常出现在 Package 中，当在 Python 文件中导入 Package 
 ## 绝对路径和相对路径
 
 原因在于每次文件运行时，都只把当前的文件绝对路径放入了sys.path路径，于是自然而然想到了两种办法来缓解问题：
+
 1. 绝对路径改相对路径
 2. 直接动手修改sys.path路径
 
@@ -63,6 +67,7 @@ __init__.py 通常出现在 Package 中，当在 Python 文件中导入 Package 
 其实就像在import运行步骤中所述，模块是在sys.path中找的，如果没有找到，说明在sys.path中是不存在的，因此暴力一点可以直接添加一个sys.path
 
 修改main.py：
+
 ```
 import sys
 sys.path.append('/home/odd/Projects/pyg_learning')
@@ -79,4 +84,5 @@ if __name__ == '__main__':
 # python 和 python -m
 
 python是将python文件当作一个脚本程序运行，因此它的绝对路径就是当前路径，当然找不到父级路径
+
 python -m 是将一个package当作一个脚本运行，因此会把整个包看成一个整体，于是就可以解决上述的问题，它可以寻找到引用的module，但需要注意的是，由于是当成包运行，所以嵌套的规则是：`xxx.xxx.xxx`，而不是`xxx/xxx/xxx`（这也是开头readme.md作者犯的错误）
