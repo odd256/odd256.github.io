@@ -5,7 +5,7 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-23 11:20:22
+updated: 2024-03-24 00:31:06
 ---
 
 > [!hint]
@@ -17,7 +17,61 @@ updated: 2024-03-23 11:20:22
 > - 这是一篇长文，记录我一步一步从零开始学习 Rust 的过程和一些思考，这篇文章会持续更新~
 > - 此外，由于我之前学习过一点 C 语言、Python 和 Java，因此文章中我可能会从其他语言的角度解释 Rust，以便更好理解 Rust 的特性
 
-# 程序：猜数游戏
+# 通用编程规范
+
+## 变量与常量
+
+变量分为两种：不可变变量和可变变量
+
+1. 不可变变量
+```rust
+fn main() {
+    let x = String::from("hello world");
+    println!("{}", x);
+}
+```
+
+上面的 `x` 就是不可变变量，如果对不可变变量进行赋值就会出错：
+
+```rust
+fn main() {
+    let x = String::from("hello world");
+    x = String::from("test") // error: cannot assign twice to immutable variable
+}
+```
+
+2. 可变变量
+```rust
+fn main() {
+    let mut x = String::from("hello world");
+    println!("{}", x);
+    x = String::from("test");
+    println!("{}", x);
+}
+```
+
+上面的 `x` 就是可变变量，`x` 经历了两次赋值
+
+![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230825193258.png)
+
+我觉得常量与不可变的变量最大的一个区别就是：变量的初始化是在程序运行时**动态完成**的，但常量的初始化是在编译阶段**写死在代码**中的
+
+## shadowing
+
+在 Rust 中，每个变量的值和变量名都是一一对应的，因此通过覆写的方法可以修改变量的数据类型
+
+```rust
+fn main() {
+    let x = 1;
+    println!("the value of x is {}", x);
+    let mut x: u32 = x + 1;
+    println!("the value of x is {}", x);
+    x = x+2;
+    println!("the value of x is {}", x);
+}
+```
+
+## 程序：猜数游戏
 
 Rust 是一个强类型静态语言，意味着要想运行它需要先进行编译，可以使用命令 `Rustc filename.rs` 编译 Rust 源代码，通过 `./filename` 运行编译好的程序。
 
@@ -73,60 +127,6 @@ fn main() {
 1. `cargo.toml` 文件中引入的包无法直接使用，需要进行 `cargo build`，并将具体的版本信息写入 `cargo.lock` 中（`cargo.lock` 中的包版本可能会和 `cargo.toml` 声明的不一致，因为 cargo 会自动选择当前大版本中的最新小版本写入 `cargo.lock` 中）
 2. 在下次 `cargo build` 时会直接调用 `cargo.lock` 中的包，从而保证包的版本一致性
 3. 当我们打算更新 cargo 包时，我们使用 `cargo update` 来更新，cargo 会自动重新计算依赖关系
-
-# 通用编程规范
-
-## 变量与常量
-
-变量分为两种：不可变变量和可变变量
-
-1. 不可变变量
-```rust
-fn main() {
-    let x = String::from("hello world");
-    println!("{}", x);
-}
-```
-
-上面的 `x` 就是不可变变量，如果对不可变变量进行赋值就会出错：
-
-```rust
-fn main() {
-    let x = String::from("hello world");
-    x = String::from("test") // error: cannot assign twice to immutable variable
-}
-```
-
-2. 可变变量
-```rust
-fn main() {
-    let mut x = String::from("hello world");
-    println!("{}", x);
-    x = String::from("test");
-    println!("{}", x);
-}
-```
-
-上面的 `x` 就是可变变量，`x` 经历了两次赋值
-
-![image.png](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/blog/20230825193258.png)
-
-我觉得常量与不可变的变量最大的一个区别就是：变量的初始化是在程序运行时**动态完成**的，但常量的初始化是在编译阶段**写死在代码**中的
-
-## shadowing
-
-在 Rust 中，每个变量的值和变量名都是一一对应的，因此通过覆写的方法可以修改变量的数据类型
-
-```rust
-fn main() {
-    let x = 1;
-    println!("the value of x is {}", x);
-    let mut x: u32 = x + 1;
-    println!("the value of x is {}", x);
-    x = x+2;
-    println!("the value of x is {}", x);
-}
-```
 
 # Ownership \*（所有权）
 
@@ -973,7 +973,7 @@ binary crate 是一些可执行文件，例如命令行执行、常驻的服务�
 
 library crate 类似工具函数，它们不能直接在命令行运行，但可以给 binary crate 调用
 
-# Path（路径）
+## Path（路径）
 
 为了在 Rust 的模块中找到某个条目，需要使用路径。
 
@@ -987,6 +987,7 @@ library crate 类似工具函数，它们不能直接在命令行运行，但可
 举个🌰
 
 ```rust
+// src/lib.rs
 mod front_of_house {
     mod hosting {
         fn add_to_waitlist() {}
@@ -1000,4 +1001,157 @@ pub fn eat_at_restaurant() {
 }
 ```
 
-在这个例子中，展示了绝对路径和相对路径的调用方法，在实际应用中，如果调用的部分与模块总是一起移动的，那么使用相对路径即可，如果调用的部分总是与模块本身分开，那么就需要使用绝对路径
+> [!note]
+> 在这个例子中，展示了绝对路径和相对路径的调用方法，在实际应用中，如果调用的部分与模块总是一起移动的，那么使用相对路径即可，如果调用的部分总是与模块本身分开，那么就需要使用绝对路径
+
+然而这个例子是错误的，它并不会通过编译，因为默认情况下，在模块内的数据都是 private 的。private 的数据可以在调用时，为使用者隐藏不需要的细节，保证数据安全。官网的例子很详细：private 就像是餐厅里的后厨，一般食客是无法进入的，食客只需要等待菜品上桌即可，厨师的操作对食客是不可见的（食客也不需要知道，只要等菜吃饭即可）
+
+### Public and Private
+
+在将模块 `hosting` 置为 public 后：
+
+```rust
+// src/lib.rs
+mod front_of_house {
+    pub mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+	// crate相当于src/main.rs 或 src/lib.rs
+    crate::front_of_house::hosting::add_to_waitlist(); // 绝对路径
+    front_of_house::hosting::add_to_waitlist(); // 相对路径
+}
+```
+> [!fail]
+> 然而，这样还是编译失败，因为虽然 `hosting` 模块已经为 public 但 `hosting` 内部仍然是 private 的，所以如果要使用 `hosting` 下的 `add_to_waitlist` 函数，我们还要将 `add_to_waitlist` 设置为 public
+
+### super 关键字
+
+```rust
+// src/lib.rs
+fn deliver_order() {}
+
+mod back_of_house {
+    fn fix_incorrect_order() {
+        cook_order();
+        super::deliver_order(); // super表示数据段的上一层
+    }
+
+    fn cook_order() {}
+}
+```
+
+`super` 类似文件系统中的 `cd ..` 操作，可以直接找到相对的父模块，在上面的例子中，super 的父模块是 crate root
+
+### Struct 的 Public
+
+```rust
+// src/lib.rs
+mod back_of_house {
+    pub struct Breakfast {
+        pub toast: String,
+        seasonal_fruit: String,
+    }
+
+    impl Breakfast {
+        pub fn summer(toast: &str) -> Breakfast {
+            Breakfast {
+                toast: String::from(toast),
+                seasonal_fruit: String::from("peaches"),
+            }
+        }
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Order a breakfast in the summer with Rye toast
+    let mut meal = back_of_house::Breakfast::summer("Rye");
+    // Change our mind about what bread we'd like
+    meal.toast = String::from("Wheat");
+    println!("I'd like {} toast please", meal.toast);
+
+    // The next line won't compile if we uncomment it; we're not allowed
+    // to see or modify the seasonal fruit that comes with the meal
+    // meal.seasonal_fruit = String::from("blueberries");
+}
+```
+
+在 struct 中，我们可以对每个字段设置 public（和 Java Bean 有点像，可以有公共字段，也可以有私有字段）
+
+### Enum 的 Public
+
+```rust
+// src/lib.rs
+mod back_of_house {
+    pub enum Appetizer {
+        Soup,
+        Salad,
+    }
+}
+
+pub fn eat_at_restaurant() {
+    let order1 = back_of_house::Appetizer::Soup;
+    let order2 = back_of_house::Appetizer::Salad;
+}
+```
+
+Enum 字段没有 `pub` 选项，因为显然一个私有 Enum 字段是多余的，如果允许 Enum 字段 private，在使用 `match` 进行匹配时需要让每个字段都 public 重复操作
+
+### use 关键字
+
+`use` 类似文件系统中的“快捷方式”
+
+```rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+use front_of_house::hosting; // 相对路径和绝对路径都可以
+pub fn eat_at_restaurant() {
+	//如果不用use关键字，就用下面这段语句
+	//front_of_house::hosting::add_to_waitlist()
+    hosting::add_to_waitlist();
+}
+```
+> [!note] 
+> - 使用 `use` 也是需要遵循 private 规则的
+> - 习惯用法：
+> 	- 调用函数需要 `use` 到父级模块
+> 	- 调用 struct，enum 时需要指定完整路径到自身
+
+在创建上面的 library 模块时，我们只能调用 `eat_at_restaurant` 函数来访问 `hosting` 模块，`hosting` 模块本身是不公开的，用户没办法访问到，如果想让 `hosting` 模块也能被访问，可以使用 `pub use` 关键字
+
+```rust
+// src/lib.rs
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+pub use front_of_house::hosting;
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+}
+
+```
+
+除此之外，还可以使用嵌套路径多次导入外部包
+
+```rust
+use std::{self, cmp::Ordering, collections::HashMap, io};
+
+fn main(){}
+```
+> [!note]
+> `self` 表示 `std::io` 本身
+
+> [!attention]
+> - 谨慎使用通配符 `*`
+> - 应用场景：
+> 	- 测试：将所有测试代码引入测试模块
+> 	- 有时被用于 prelude 模块
+
+
