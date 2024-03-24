@@ -5,10 +5,10 @@ tags:
   - 从零开始系列
 publish: true
 created: 2023-08-25 19:00:00
-updated: 2024-03-24 00:31:06
+updated: 2024-03-25 00:48:14
 ---
 
-> [!hint]
+> [!quote] 
 > 参考资料：
 > - Video:  [Rust编程语言入门教程（Rust语言/Rust权威指南配套）【已完结】](https://www.bilibili.com/video/BV1hp4y1k7SV)
 > - Cookbook: [The Rust Programming Language - The Rust Programming Language (rust-lang.org)](https://doc.rust-lang.org/stable/book/)
