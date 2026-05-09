@@ -4,7 +4,7 @@ tags:
   - Writing
 publish: true
 created: 2024-02-28 15:27:52
-updated: 2026-05-10 00:34:22
+updated: 2026-05-10 00:36:27
 ---
 
 [Obsidian](https://obsidian.md/) 是一个全平台笔记软件。本文从**笔记撰写**、**笔记发布**、**笔记备份**、**其它插件**四个角度，分享我的 Obsidian 使用经验。
@@ -51,11 +51,11 @@ updated: 2026-05-10 00:34:22
 
 ^3ad91e
 
-使用 **GitHub Publisher** ⭐ 插件，可以按需 push 指定的 markdown 文件至 GitHub 仓库，并通过 pull request 进行合并，最终发布为静态网站。
+使用 **Enveloppe** ⭐ 插件，可以按需 push 指定的 markdown 文件至 GitHub 仓库，并通过 pull request 进行合并，最终发布为静态网站。
 
 使用到的插件：
 
-1. GitHub Publisher
+1. Enveloppe
 
 步骤：
 
