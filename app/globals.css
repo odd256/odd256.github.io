@@ -337,6 +337,16 @@
   .callout-content > *:first-child { @apply mt-0; }
   .callout-content > *:last-child { @apply mb-0; }
 
+  /* Twemoji */
+  img.emoji {
+    display: inline;
+    height: 1em;
+    width: 1em;
+    margin: 0 0.05em 0 0.1em;
+    vertical-align: -0.1em;
+    pointer-events: none;
+  }
+
   /* WikiLinks */
   .wikilink {
     @apply relative no-underline border-b border-dashed border-primary/50 hover:border-solid hover:border-primary transition-all;

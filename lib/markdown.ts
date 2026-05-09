@@ -5,6 +5,8 @@ import anchor from 'markdown-it-anchor';
 import toc from 'markdown-it-toc-done-right';
 import taskLists from 'markdown-it-task-lists';
 import mdHighlight from 'markdown-it-highlightjs';
+import { full as emojiPlugin } from 'markdown-it-emoji';
+import twemoji from 'twemoji';
 
 // 更健壮的 Obsidian Callout 渲染逻辑
 function obsidianCallouts(md: any) {
@@ -149,6 +151,14 @@ function wikiLinks(md: any) {
 
 let currentToc = "";
 
+function applyTwemoji(html: string): string {
+  return twemoji.parse(html, {
+    base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/',
+    folder: 'svg',
+    ext: '.svg',
+  });
+}
+
 const md = new markdownIt({
   html: true,
   linkify: false,
@@ -159,6 +169,7 @@ const md = new markdownIt({
 .use(wikiLinks)
 .use(obsidianCallouts)
 .use(katex)
+.use(emojiPlugin)
 .use(anchor, { permalink: anchor.permalink.headerLink() })
 .use(toc, { 
   listType: 'ul', 
@@ -200,8 +211,8 @@ export function parseMarkdown(content: string) {
 
     return {
       metadata: data,
-      content: html,
-      toc: currentToc
+      content: applyTwemoji(html),
+      toc: applyTwemoji(currentToc)
     };
   } catch (e) {
     console.error("Error parsing markdown:", e);

@@ -25,7 +25,15 @@
       "PowerShell(Get-Process *)",
       "PowerShell(npx next build 2>&1 | Select-Object -First 40)",
       "PowerShell(npx next build 2>&1 | Select-Object -Last 30)",
-      "PowerShell($env:NODE_ENV=\"production\"; npx next build 2>&1 | Select-Object -Last 15)"
+      "PowerShell($env:NODE_ENV=\"production\"; npx next build 2>&1 | Select-Object -Last 15)",
+      "Bash(npm view *)",
+      "Bash(npm pack *)",
+      "Bash(ls node_modules/twemoji/package.json)",
+      "Bash(head -20 node_modules/twemoji/package.json)",
+      "PowerShell($env:NODE_ENV=\"production\"; npx next build 2>&1 | Select-Object -Last 20)",
+      "Bash(node -e \"const m = require\\('markdown-it-emoji'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \"import\\('markdown-it-emoji'\\).then\\(m => console.log\\(Object.keys\\(m\\)\\)\\)\")",
+      "Bash(node *)"
     ]
   }
 }
