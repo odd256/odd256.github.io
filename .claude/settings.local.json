@@ -33,7 +33,11 @@
       "PowerShell($env:NODE_ENV=\"production\"; npx next build 2>&1 | Select-Object -Last 20)",
       "Bash(node -e \"const m = require\\('markdown-it-emoji'\\); console.log\\(Object.keys\\(m\\)\\)\")",
       "Bash(node -e \"import\\('markdown-it-emoji'\\).then\\(m => console.log\\(Object.keys\\(m\\)\\)\\)\")",
-      "Bash(node *)"
+      "Bash(node *)",
+      "PowerShell(\\(Get-Content \"D:\\\\projects\\\\easy_project\\\\easy_share\\\\app\\\\globals.css\" -Raw\\) -split \"`n\" | Select-String \"\\\\.prose pre\" | ForEach-Object { [System.Text.Encoding]::UTF8.GetBytes\\($_.Line\\) | ForEach-Object { Write-Host -NoNewline \"$_ \" }; Write-Host \"\" })",
+      "PowerShell(npx next build 2>&1 | Select-Object -Last 20)",
+      "PowerShell(npx next build 2>&1 | Select-Object -Last 10)",
+      "PowerShell(npx next build 2>&1 | Select-Object -Last 8)"
     ]
   }
 }

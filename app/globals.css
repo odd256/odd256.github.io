@@ -138,37 +138,49 @@
   .prose ul { @apply list-disc list-outside my-4 ml-6 space-y-2; }
   .prose ol { @apply list-decimal list-outside my-4 ml-6 space-y-2; }
   .prose li > p { @apply inline; }
-  .prose :not(pre) > code { 
+  .prose :not(pre) > code {
     @apply bg-muted/50 text-foreground/80 px-[0.4em] py-[0.1em] rounded-md text-[0.9em] font-mono border border-border/30;
     font-variant-ligatures: none;
   }
-  .prose pre { 
-    @apply bg-[#1e2227] p-0 rounded-2xl overflow-x-auto my-6 border border-white/5 shadow-2xl shadow-black/20;
+  .prose pre {
+    @apply bg-[#1e2227] p-0 rounded-2xl overflow-hidden my-6 border border-white/5 shadow-2xl shadow-black/20;
     @apply relative;
   }
-  .prose pre code { 
-    @apply bg-transparent p-4! font-mono text-[13.5px] leading-relaxed block min-w-full w-fit;
+  .prose pre code {
+    @apply bg-transparent font-mono text-[13.5px] leading-relaxed block min-w-full overflow-x-auto;
+    padding: 1rem 1rem 0.5rem 1rem !important;
     font-variant-ligatures: none;
     -webkit-font-smoothing: antialiased;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.12) transparent;
   }
   .prose pre::before {
     content: "";
     @apply absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent;
   }
-  
+  .prose pre code::-webkit-scrollbar { height: 6px; }
+  .prose pre code::-webkit-scrollbar-track { background: transparent; }
+  .prose pre code::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 0.12);
+    border-radius: 3px;
+  }
+  .prose pre code::-webkit-scrollbar-thumb:hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+
   .copy-button-container {
     @apply absolute top-2 right-2 z-10 opacity-0 transition-opacity duration-200 w-8 h-8 flex items-center justify-center;
   }
-  
+
   .prose pre:hover .copy-button-container {
     @apply opacity-100;
   }
   .prose blockquote:not(.callout) { @apply border-l-4 border-primary/20 pl-4 my-6; }
   .prose a { @apply text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all; }
-  
+
   /* Task Lists (Checkboxes) */
   .prose .task-list-item { @apply list-none flex items-start gap-2; }
-  .prose .task-list-item input[type="checkbox"] { 
+  .prose .task-list-item input[type="checkbox"] {
     @apply mt-1.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary;
   }
   .prose .task-list-item-label { @apply flex-1; }
@@ -306,7 +318,7 @@
   .callout[open] .callout-title .fold-callout-icon {
     @apply rotate-0;
   }
-  
+
   .callout:not([open]) .callout-title .fold-callout-icon {
     @apply -rotate-90;
   }
