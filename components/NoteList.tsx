@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
+import { slugify } from "@/lib/utils";
 
 interface Note {
   slug: string[];
@@ -36,7 +37,7 @@ export function NoteCard({
   index: number;
   variant?: "default" | "compact";
 }) {
-  const href = `/${note.slug.join("/")}`;
+  const href = `/${note.slug.map(slugify).join("/")}`;
   const isCompact = variant === "compact";
   
   if (isCompact) {

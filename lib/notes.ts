@@ -105,8 +105,17 @@ export function getAllNotes() {
 export function getNoteBySlug(slugArray: string[]): Note | null {
   // 对 URL 传来的参数进行解码（如 %20 还原为空格）
   const decodedSlug = slugArray.map(decodeURIComponent);
-  const fullPath = path.join(postsDirectory, ...decodedSlug) + '.md';
-  
+  let fullPath = path.join(postsDirectory, ...decodedSlug) + '.md';
+
+  // URL 中空格被替换为 '-'，如果文件不存在，尝试还原空格
+  if (!fs.existsSync(fullPath)) {
+    const spaceSlug = decodedSlug.map(s => s.replace(/-/g, ' '));
+    const altPath = path.join(postsDirectory, ...spaceSlug) + '.md';
+    if (fs.existsSync(altPath)) {
+      fullPath = altPath;
+    }
+  }
+
   console.log('[Debug] Requesting note:', {
     original: slugArray,
     decoded: decodedSlug,
