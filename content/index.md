@@ -4,7 +4,7 @@ tags:
   - HomePage
 publish: true
 created: 2023-12-23 23:00:00
-updated: 2026-05-10 00:19:38
+updated: 2026-05-10 00:50:45
 ---
 
 ![wallhaven-k98jl6.jpg](https://obsidian-pic-1258776558.cos.ap-nanjing.myqcloud.com/wallhaven-k98jl6.jpg)
@@ -37,7 +37,7 @@ updated: 2026-05-10 00:19:38
 
 **小工具**
 
-- [Rime 输入法自动部署](https://github.com/odd256/rime_auto_deploy) — 一键配置 Rime 输入法
+- [Rrime_auto_deploy](https://github.com/odd256/rime_auto_deploy) — 一键配置 Rime 输入法
 - [video2rtsp](https://github.com/odd256/video2rtsp) — 本地视频文件转 RTSP 流
 - [pdf_ocr](https://github.com/odd256/pdf_ocr) — 非结构化 PDF 转结构化数据
 
