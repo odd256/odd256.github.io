@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { ScrollProgressProvider, ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
 import { MarkdownEnhancer } from "@/components/MarkdownEnhancer";
 
@@ -93,10 +94,12 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
         <aside className="lg:col-span-3">
           {note.toc && (
             <div className="sticky top-8">
-              <div 
-                className="overflow-y-auto max-h-[85vh] pl-2 pb-8 prose-sm dark:prose-invert prose-a:no-underline hover:prose-a:text-primary transition-colors"
-                dangerouslySetInnerHTML={{ __html: note.toc }} 
-              />
+              <ScrollArea className="max-h-[85vh] rounded-md">
+                <div
+                  className="pl-2 pb-8 prose-sm dark:prose-invert prose-a:no-underline hover:prose-a:text-primary transition-colors"
+                  dangerouslySetInnerHTML={{ __html: note.toc }}
+                />
+              </ScrollArea>
             </div>
           )}
         </aside>

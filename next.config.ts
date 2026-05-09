@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
-  output: "export",
+  ...(isProduction && { output: "export" as const }),
   images: {
     unoptimized: true,
   },
