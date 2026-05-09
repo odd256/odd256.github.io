@@ -6,7 +6,7 @@ import Fuse from "fuse.js";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, X } from "lucide-react";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, slugify } from "@/lib/utils";
 
 const SNIPPET_LENGTH = 80;
 
@@ -115,7 +115,7 @@ export function SearchBox({ notes }: SearchBoxProps) {
     (slug: string[]) => {
       setIsOpen(false);
       setQuery("");
-      router.push(`/${slug.join("/")}`);
+      router.push(`/${slug.map(slugify).join("/")}`);
     },
     [router],
   );

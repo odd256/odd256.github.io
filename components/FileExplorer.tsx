@@ -4,7 +4,7 @@ import { NoteTree } from "@/lib/notes";
 import { Folder as FolderIconLucide, FileText } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, slugify } from "@/lib/utils";
 import { motion } from "motion/react";
 import { 
   Files, 
@@ -35,7 +35,7 @@ export function FileExplorer({ tree }: FileExplorerProps) {
         <FilesHighlight hover className="bg-accent/40 rounded-md">
           <div className="space-y-0.5">
             {tree.map((node) => (
-              <ExplorerNode key={node.name} node={node} path={node.name} />
+              <ExplorerNode key={node.name} node={node} path={slugify(node.name)} />
             ))}
           </div>
         </FilesHighlight>
@@ -68,7 +68,7 @@ function ExplorerNode({ node, path }: { node: NoteTree; path: string }) {
         <FolderContent className="ml-3.5 pl-3 border-l border-border/40">
           <div className="py-0.5 space-y-0.5">
             {node.children?.map((child) => (
-              <ExplorerNode key={child.name} node={child} path={`${path}/${child.name}`} />
+              <ExplorerNode key={child.name} node={child} path={`${path}/${slugify(child.name)}`} />
             ))}
           </div>
         </FolderContent>
@@ -76,7 +76,7 @@ function ExplorerNode({ node, path }: { node: NoteTree; path: string }) {
     );
   }
 
-  const href = `/${node.slug?.join("/")}`;
+  const href = `/${node.slug?.map(slugify).join("/")}`;
   const isActive = pathname === href || decodeURIComponent(pathname) === href;
 
   return (

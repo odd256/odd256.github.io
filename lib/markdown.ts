@@ -6,6 +6,7 @@ import toc from 'markdown-it-toc-done-right';
 import taskLists from 'markdown-it-task-lists';
 import mdHighlight from 'markdown-it-highlightjs';
 import { full as emojiPlugin } from 'markdown-it-emoji';
+import { slugify } from '@/lib/utils';
 import twemoji from 'twemoji';
 
 // 更健壮的 Obsidian Callout 渲染逻辑
@@ -135,7 +136,7 @@ function wikiLinks(md: any) {
       const token = state.push('link_open', 'a', 1);
       
       // 这里的链接逻辑需要根据实际笔记路径调整
-      const slug = link.trim().replace(/\s+/g, '%20');
+      const slug = slugify(link.trim());
       token.attrs = [['href', `/${slug}`], ['class', 'wikilink']];
       
       const textToken = state.push('text', '', 0);

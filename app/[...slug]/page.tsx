@@ -1,4 +1,5 @@
 import { getAllNotes, getNoteBySlug } from "@/lib/notes";
+import { slugify } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Clock } from "lucide-react";
@@ -13,7 +14,7 @@ import { MarkdownEnhancer } from "@/components/MarkdownEnhancer";
 export async function generateStaticParams() {
   const notes = getAllNotes();
   return notes.map((note) => ({
-    slug: note.slug,
+    slug: note.slug.map(slugify),
   }));
 }
 
