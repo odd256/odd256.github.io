@@ -94,7 +94,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
         <aside className="lg:col-span-3">
           {note.toc && (
             <div className="sticky top-8">
-              <ScrollArea className="max-h-[85vh] rounded-md">
+              <ScrollArea className="h-[85vh] rounded-md">
                 <div
                   className="pl-2 pb-8 prose-sm dark:prose-invert prose-a:no-underline hover:prose-a:text-primary transition-colors"
                   dangerouslySetInnerHTML={{ __html: note.toc }}
