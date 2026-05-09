@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"D:\\\\projects\\\\easy_project\\\\easy_share\\\\content\" /s /b)",
+      "Bash(Get-ChildItem *)",
+      "WebSearch",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "PowerShell(Stop-Process *)",
+      "mcp__ide__getDiagnostics",
+      "Bash(curl -s http://localhost:3000)",
+      "PowerShell($html = Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing; $html.Content -split '><' | Select-String -Pattern \"搜索笔记\" | Select-Object -First 5)",
+      "PowerShell($response = Invoke-WebRequest -Uri http://localhost:3000/archive -UseBasicParsing; if \\($response.StatusCode -eq 200\\) { \"Archive page: 200 OK\" } else { \"Archive page: $\\($response.StatusCode\\)\" })",
+      "PowerShell($response = Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing; $response.StatusCode)",
+      "PowerShell($html = Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing; if \\($html.Content -match \"cloud\\\\.umami\\\\.is/script\\\\.js\"\\) { \"Umami script FOUND in page\" } else { \"Umami script NOT found\" })",
+      "PowerShell(npm run *)"
+    ]
+  }
+}
