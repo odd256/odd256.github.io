@@ -131,8 +131,14 @@
   .prose {
     @apply max-w-none leading-relaxed;
   }
+  .prose h1 a,
+  .prose h2 a,
+  .prose h3 a { @apply underline decoration-transparent underline-offset-4 text-inherit transition-all duration-300; }
   .prose h1 { @apply text-3xl font-bold mt-8 mb-4; }
-  .prose h2 { @apply text-2xl font-semibold mt-8 mb-4 pb-2 border-b; }
+  .prose h2 { @apply text-2xl font-semibold mt-8 mb-4; }
+  .prose h1:hover a,
+.prose h2:hover a,
+.prose h3:hover a { @apply decoration-primary; }
   .prose h3 { @apply text-xl font-semibold mt-6 mb-3; }
   .prose p { @apply my-4; }
   .prose ul { @apply list-disc list-outside my-4 ml-6 space-y-2; }
