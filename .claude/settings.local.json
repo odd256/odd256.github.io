@@ -39,7 +39,8 @@
       "PowerShell(npx next build 2>&1 | Select-Object -Last 10)",
       "PowerShell(npx next build 2>&1 | Select-Object -Last 8)",
       "PowerShell(Get-Content *)",
-      "PowerShell($lines = Get-Content \"D:\\\\projects\\\\easy_project\\\\easy_share\\\\app\\\\globals.css\"; for \\($i = 133; $i -le 143; $i++\\) { $bytes = [System.Text.Encoding]::UTF8.GetBytes\\($lines[$i]\\); $hex = \\($bytes | ForEach-Object { '{0:X2}' -f $_ }\\) -join ' '; Write-Output \"[$i] HEX: $hex`n[$i] TXT: $\\($lines[$i]\\)\" })"
+      "PowerShell($lines = Get-Content \"D:\\\\projects\\\\easy_project\\\\easy_share\\\\app\\\\globals.css\"; for \\($i = 133; $i -le 143; $i++\\) { $bytes = [System.Text.Encoding]::UTF8.GetBytes\\($lines[$i]\\); $hex = \\($bytes | ForEach-Object { '{0:X2}' -f $_ }\\) -join ' '; Write-Output \"[$i] HEX: $hex`n[$i] TXT: $\\($lines[$i]\\)\" })",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

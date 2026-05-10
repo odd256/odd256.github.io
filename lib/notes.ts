@@ -142,7 +142,7 @@ export function getIndexContent() {
   const indexPath = path.join(process.cwd(), 'content/index.md');
   if (fs.existsSync(indexPath)) {
     const fileContents = fs.readFileSync(indexPath, 'utf8');
-    return parseMarkdown(fileContents);
+    return parseMarkdown(fileContents, { skipToc: true });
   }
   return null;
 }

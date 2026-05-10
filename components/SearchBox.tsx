@@ -4,7 +4,6 @@ import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Fuse from "fuse.js";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, X } from "lucide-react";
 import { cn, formatDate, slugify } from "@/lib/utils";
 
@@ -194,7 +193,7 @@ export function SearchBox({ notes }: SearchBoxProps) {
       {isOpen && (
         <div className="absolute top-full mt-1 left-0 right-0 bg-popover border border-border rounded-lg shadow-lg overflow-hidden z-50">
           {results.length > 0 ? (
-            <ScrollArea className="max-h-[320px]">
+            <div className="max-h-[320px] overflow-y-auto">
               <ul className="py-1">
               {results.map((note, index) => (
                 <li key={note.slug.join("/")}>
@@ -233,7 +232,7 @@ export function SearchBox({ notes }: SearchBoxProps) {
                 </li>
               ))}
             </ul>
-            </ScrollArea>
+            </div>
           ) : query.trim() ? (
             <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
               <Search className="size-8 opacity-30 mb-2" />

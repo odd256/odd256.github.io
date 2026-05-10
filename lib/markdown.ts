@@ -197,13 +197,12 @@ md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
   return defaultRender(tokens, idx, options, env, self);
 };
 
-export function parseMarkdown(content: string) {
+export function parseMarkdown(content: string, options?: { skipToc?: boolean }) {
   try {
     const { data, content: markdownContent } = matter(content);
-    
-    // 自动插入 [TOC] 标记，确保提取目录
+
     let mdContentToParse = markdownContent || "";
-    if (!mdContentToParse.includes("[TOC]")) {
+    if (!options?.skipToc && !mdContentToParse.includes("[TOC]")) {
       mdContentToParse = "[TOC]\n\n" + mdContentToParse;
     }
 
