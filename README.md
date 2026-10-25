@@ -104,3 +104,15 @@ Since the project uses `output: 'export'`, just point the platform to the `out/`
 - [highlight.js](https://highlightjs.org/) — Code syntax highlighting
 - [gray-matter](https://github.com/jonschlinkert/gray-matter) — Frontmatter parsing
 - [markdown-it](https://github.com/markdown-it/markdown-it) — Markdown rendering
+
+## Emoji rendering
+
+Markdown emoji shortcodes are handled by `@mdit/plugin-emoji`. Both shortcodes
+(such as `:smile:`) and Unicode emoji in article text and the table of contents
+use [Twemoji](https://github.com/jdecked/twemoji) SVG graphics from the pinned
+17.0.3 release on jsDelivr. Code examples and HTML attributes stay unchanged.
+
+Twemoji graphics are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+and attributed to Twitter, Inc. and other contributors. Twemoji code is MIT licensed.
+
+Run `npm run test:markdown` to check emoji, math, and Markdown rendering.

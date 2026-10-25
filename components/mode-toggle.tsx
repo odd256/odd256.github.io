@@ -1,19 +1,14 @@
 "use client"
 
-import * as React from "react"
 import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { useHydrated, useTheme } from "@wrksz/themes/client"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggler, type ThemeSelection, type Resolved } from "@/components/animate-ui/primitives/effects/theme-toggler"
 
 export function ModeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useHydrated()
 
   if (!mounted) {
     return (
