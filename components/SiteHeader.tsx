@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { getIndexContent } from "@/lib/notes";
-import { Blur } from "./animate-ui/primitives/effects/blur";
+import { AnimatedTitle } from "./AnimatedTitle";
 import { siGithub, siX, siGmail } from "simple-icons";
 import { Button } from "./ui/button";
 import { SimpleIcon } from "./SimpleIcon";
@@ -14,11 +14,9 @@ export function SiteHeader() {
     <header className="mb-16">
       <div className="flex justify-between items-center mb-4">
         <Link href="/" className="hover:opacity-80 transition-opacity">
-          <Blur asChild>
-            <h1 className="text-5xl font-extrabold tracking-tighter">
-              {siteConfig.title || indexData?.metadata.title || "My Notes"}
-            </h1>
-          </Blur>
+          <AnimatedTitle
+            title={siteConfig.title || indexData?.metadata.title || "My Notes"}
+          />
         </Link>
         <div className="flex items-center gap-2">
           {siteConfig.links.github && (

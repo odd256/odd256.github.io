@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { AnimateIcon } from "@animate-ui/react/icons";
+import { ReducedMotionConfig } from "@animate-ui/react/utils/motion";
+import { Cancel01 as X } from "@/components/animate-ui/icons/hugeicons/cancel-01";
 import { createPortal } from "react-dom";
-import { CopyButton } from "@/components/animate-ui/components/buttons/copy";
+import { CopyButton } from "@/components/CopyButton";
 import { CollapsibleCallout } from "@/components/CollapsibleCallout";
 
 interface MarkdownEnhancerProps {
@@ -156,6 +158,7 @@ export function MarkdownEnhancer({ children }: MarkdownEnhancerProps) {
       )}
 
       {/* 图片放大预览 */}
+      <ReducedMotionConfig>
       <AnimatePresence>
         {zoomedImage && (
           <motion.div
@@ -184,17 +187,20 @@ export function MarkdownEnhancer({ children }: MarkdownEnhancerProps) {
                   {altText}
                 </p>
               )}
+              <AnimateIcon animateOnHover animateOnTap completeOnStop asChild>
               <button
                 onClick={closeZoom}
                 className="absolute -top-12 right-0 p-2 text-muted-foreground hover:text-primary transition-colors bg-secondary/50 rounded-full backdrop-blur-sm"
                 aria-label="关闭预览"
               >
-                <X className="w-6 h-6" />
+                <X aria-hidden className="w-6 h-6" />
               </button>
+              </AnimateIcon>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      </ReducedMotionConfig>
     </>
   );
 }

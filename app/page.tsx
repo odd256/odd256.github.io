@@ -1,7 +1,8 @@
 import { getAllNotes, getIndexContent } from "@/lib/notes";
 import { NoteList } from "@/components/NoteList";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { AnimateIcon } from "@animate-ui/react/icons";
+import { ArrowRight01 as ChevronRight } from "@/components/animate-ui/icons/hugeicons/arrow-right-01";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -42,12 +43,14 @@ export default function Home() {
           
           {allNotes.length > 5 && (
             <div className="mt-4 flex justify-end">
+              <AnimateIcon animateOnHover animateOnTap completeOnStop asChild>
               <Button asChild variant="ghost" className="text-muted-foreground hover:text-foreground group px-2">
                 <Link href="/archive" className="flex items-center">
                   查看更多
-                  <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight aria-hidden data-icon="inline-end" className="ml-1" />
                 </Link>
               </Button>
+              </AnimateIcon>
             </div>
           )}
         </section>

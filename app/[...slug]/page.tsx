@@ -2,13 +2,17 @@ import { getAllNotes, getNoteBySlug } from "@/lib/notes";
 import { slugify } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar } from "@/components/animate-ui/icons/hugeicons/calendar";
+import { Clock01 as Clock } from "@/components/animate-ui/icons/hugeicons/clock-01";
 import { formatDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ScrollProgressProvider, ScrollProgress } from "@/components/animate-ui/primitives/animate/scroll-progress";
+import {
+  ScrollProgressProvider,
+  ScrollProgress,
+} from "@animate-ui/react/primitives/scroll-progress";
 import { MarkdownEnhancer } from "@/components/MarkdownEnhancer";
 
 export async function generateStaticParams() {
@@ -29,7 +33,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
   return (
     <ScrollProgressProvider global>
       <ScrollProgress className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left" />
-      <div className="grid grid-cols-1 lg:grid-cols-9 gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="grid grid-cols-1 lg:grid-cols-9 gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700 motion-reduce:animate-none">
         {/* 中间：笔记内容 */}
         <article className="lg:col-span-6 min-w-0">
           {/* 这里去掉了返回首页按钮 */}
@@ -42,13 +46,13 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
             <div className="flex flex-wrap gap-4 items-center text-sm text-muted-foreground mt-4">
               {note.metadata.created && (
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar aria-hidden className="w-4 h-4" />
                   <span>发布于 {formatDate(note.metadata.created)}</span>
                 </div>
               )}
               {note.metadata.updated && note.metadata.updated !== note.metadata.created && (
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4" />
+                  <Clock aria-hidden className="w-4 h-4" />
                   <span>更新于 {formatDate(note.metadata.updated)}</span>
                 </div>
               )}

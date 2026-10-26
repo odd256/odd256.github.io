@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "animate-ui": {
+      "source": "imskyleen/animate-ui",
+      "sourceType": "github",
+      "skillPath": "skills/animate-ui/SKILL.md",
+      "computedHash": "bea74c688175a0a722fc280681a1fafe125933702dc05f8414709c17bfeec5cf"
+    },
     "nextjs-app-router-patterns": {
       "source": "wshobson/agents",
       "sourceType": "github",

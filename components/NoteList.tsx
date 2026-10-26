@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import { ReducedMotionConfig } from "@animate-ui/react/utils/motion";
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
@@ -42,6 +43,7 @@ export function NoteCard({
   
   if (isCompact) {
     return (
+      <ReducedMotionConfig remount>
       <motion.div
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
@@ -78,11 +80,13 @@ export function NoteCard({
           </Link>
         </Item>
       </motion.div>
+      </ReducedMotionConfig>
     );
   }
 
   return (
-    <motion.div
+    <ReducedMotionConfig remount>
+      <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
@@ -118,6 +122,7 @@ export function NoteCard({
         </Link>
       </Item>
     </motion.div>
+      </ReducedMotionConfig>
   );
 }
 

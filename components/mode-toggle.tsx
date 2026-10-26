@@ -1,10 +1,16 @@
 "use client"
 
-import { Moon, Sun } from "lucide-react"
+import { Moon02 as Moon } from "@/components/animate-ui/icons/hugeicons/moon-02";
+import { Sun03 as Sun } from "@/components/animate-ui/icons/hugeicons/sun-03";
 import { useHydrated, useTheme } from "@wrksz/themes/client"
+import { AnimateIcon } from "@animate-ui/react/icons"
 
 import { Button } from "@/components/ui/button"
-import { ThemeToggler, type ThemeSelection, type Resolved } from "@/components/animate-ui/primitives/effects/theme-toggler"
+import {
+  ThemeToggler,
+  type ThemeSelection,
+  type Resolved,
+} from "@animate-ui/react/primitives/effects/theme-toggler"
 
 export function ModeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
@@ -13,7 +19,7 @@ export function ModeToggle() {
   if (!mounted) {
     return (
       <Button variant="default" size="icon" className="rounded-full shadow-sm opacity-0">
-        <Moon className="h-[1.2rem] w-[1.2rem]" />
+        <Moon aria-hidden className="h-[1.2rem] w-[1.2rem]" />
       </Button>
     )
   }
@@ -26,16 +32,18 @@ export function ModeToggle() {
       direction="ltr"
     >
       {({ resolved, toggleTheme }) => (
+        <AnimateIcon animateOnHover animateOnTap completeOnStop asChild>
         <Button 
           variant="default" 
           size="icon" 
-          className="rounded-full shadow-sm transition-all duration-300"
+          className="relative rounded-full shadow-sm transition-colors duration-300"
           onClick={() => toggleTheme(resolved === "dark" ? "light" : "dark")}
         >
-          <Moon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Sun className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Moon aria-hidden className="size-[1.2rem] rotate-0 scale-100 transition-[rotate,scale,opacity] dark:-rotate-90 dark:scale-0 dark:opacity-0 motion-reduce:rotate-0 motion-reduce:scale-100 motion-reduce:dark:rotate-0 motion-reduce:dark:scale-100" />
+          <Sun aria-hidden className="absolute size-[1.2rem] rotate-90 scale-0 opacity-0 transition-[rotate,scale,opacity] dark:rotate-0 dark:scale-100 dark:opacity-100 motion-reduce:rotate-0 motion-reduce:scale-100 motion-reduce:dark:rotate-0 motion-reduce:dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
+        </AnimateIcon>
       )}
     </ThemeToggler>
   )

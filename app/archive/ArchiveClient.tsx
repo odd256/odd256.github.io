@@ -7,13 +7,13 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { 
-  Search, 
-  Tag as TagIcon, 
-  X,
-  Layers
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Search01 as Search } from "@/components/animate-ui/icons/hugeicons/search-01";
+import { Tag as TagIcon } from "@/components/animate-ui/icons/hugeicons/tag";
+import { Cancel01 as X } from "@/components/animate-ui/icons/hugeicons/cancel-01";
+import { Layers01 as Layers } from "@/components/animate-ui/icons/hugeicons/layers-01";
+import { motion, AnimatePresence } from "motion/react";
+import { AnimateIcon } from "@animate-ui/react/icons";
+import { ReducedMotionConfig } from "@animate-ui/react/utils/motion";
 import {
   Pagination,
   PaginationContent,
@@ -138,7 +138,7 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
                   所有笔记
                 </h1>
                 <p className="text-muted-foreground mt-2 flex items-center gap-2">
-                  <Layers className="size-4" />
+                  <Layers aria-hidden className="size-4" />
                   共 {initialNotes.length} 篇文章
                   {filteredNotes.length !== initialNotes.length && (
                     <span className="text-primary font-medium">
@@ -149,19 +149,22 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
               </div>
               
               {(searchQuery || selectedTag) && (
+                <AnimateIcon animateOnHover animateOnTap completeOnStop asChild>
                 <button 
                   onClick={clearFilters}
                   className="text-xs flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors bg-muted/50 px-3 py-1.5 rounded-full border border-border/50"
                 >
-                  <X className="size-3" />
+                  <X aria-hidden className="size-3" />
                   清除筛选
                 </button>
+                </AnimateIcon>
               )}
             </div>
             <Separator className="opacity-50" />
           </header>
 
           <main className="min-h-[500px]">
+            <ReducedMotionConfig>
             <AnimatePresence mode="wait">
               <motion.div
                 key={searchQuery + selectedTag + currentPage}
@@ -219,7 +222,7 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
                   </>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-20 text-muted-foreground space-y-4 bg-muted/20 rounded-2xl border border-dashed border-border/60">
-                    <Search className="size-12 opacity-20" />
+                    <Search aria-hidden className="size-12 opacity-20" />
                     <p className="text-lg">未找到相关笔记</p>
                     <button 
                       onClick={clearFilters}
@@ -231,6 +234,7 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
                 )}
               </motion.div>
             </AnimatePresence>
+            </ReducedMotionConfig>
           </main>
         </div>
 
@@ -240,13 +244,13 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
           <Card className="border-border/40 bg-card/40 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <Search className="size-4 text-primary" />
+                <Search aria-hidden className="size-4 text-primary" />
                 快速搜索
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Search aria-hidden className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <Input 
                   placeholder="标题、摘要或标签..."
                   className="pl-10 bg-muted/50 border-none focus-visible:ring-1 focus-visible:ring-primary/50 transition-all"
@@ -264,7 +268,7 @@ export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
           <Card className="border-border/40 bg-card/40 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-bold flex items-center gap-2">
-                <TagIcon className="size-4 text-primary" />
+                <TagIcon aria-hidden className="size-4 text-primary" />
                 热门标签
               </CardTitle>
             </CardHeader>

@@ -4,7 +4,9 @@ import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Fuse from "fuse.js";
 import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
+import { AnimateIcon } from "@animate-ui/react/icons";
+import { Search01 as Search } from "@/components/animate-ui/icons/hugeicons/search-01";
+import { Cancel01 as X } from "@/components/animate-ui/icons/hugeicons/cancel-01";
 import { cn, formatDate, slugify } from "@/lib/utils";
 
 const SNIPPET_LENGTH = 80;
@@ -165,7 +167,7 @@ export function SearchBox({ notes }: SearchBoxProps) {
 
   return (
     <div ref={containerRef} className="relative group">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors z-10 pointer-events-none" />
+      <Search aria-hidden className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors z-10 pointer-events-none" />
       <Input
         ref={inputRef}
         placeholder="搜索笔记..."
@@ -181,13 +183,16 @@ export function SearchBox({ notes }: SearchBoxProps) {
         onKeyDown={handleKeyDown}
       />
       {query && (
+        <AnimateIcon animateOnHover animateOnTap completeOnStop asChild>
         <button
+          type="button"
+          aria-label="清除搜索"
           onClick={handleClear}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors z-10"
-          tabIndex={-1}
         >
-          <X className="w-4 h-4" />
+          <X aria-hidden className="w-4 h-4" />
         </button>
+        </AnimateIcon>
       )}
 
       {isOpen && (
@@ -235,7 +240,7 @@ export function SearchBox({ notes }: SearchBoxProps) {
             </div>
           ) : query.trim() ? (
             <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
-              <Search className="size-8 opacity-30 mb-2" />
+              <Search aria-hidden className="size-8 opacity-30 mb-2" />
               <p className="text-sm">未找到相关笔记</p>
             </div>
           ) : null}

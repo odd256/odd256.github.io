@@ -310,7 +310,7 @@
   }
 
   .callout-title .fold-callout-icon {
-    @apply transition-transform duration-150 opacity-80 cursor-pointer self-center;
+    @apply transition-transform duration-150 motion-reduce:transition-none opacity-80 cursor-pointer self-center;
     width: var(--icon-size);
     height: var(--icon-size);
     flex: 0 0 var(--icon-size);
