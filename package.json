@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
+    "@mdit/plugin-alert": "^2.0.3",
     "@mdit/plugin-anchor": "^2.2.3",
     "@mdit/plugin-emoji": "^1.2.3",
     "@mdit/plugin-img-lazyload": "^1.1.3",
