@@ -20,7 +20,7 @@ export function ModeToggle() {
   const requestedTheme = useRef<ThemeSelection | null>(null)
 
   const commitTheme = useCallback((nextTheme: ThemeSelection) => {
-    // An older wipe may finish after the user has already toggled again.
+    // 用户再次切换主题后，上一次遮罩动画可能才结束。
     if (requestedTheme.current !== nextTheme) return
     pendingTheme.current = null
     setTheme(nextTheme)
@@ -36,8 +36,8 @@ export function ModeToggle() {
       if (domTheme === nextTheme) commitTheme(nextTheme)
     })
 
-    // ThemeToggler changes the class before committing its theme. Commit at that
-    // mutation so @wrksz/themes does not restore the old theme during the wipe.
+    // ThemeToggler 会先修改样式类，再提交主题状态；在样式类变化时
+    // 同步提交，避免 @wrksz/themes 在遮罩动画期间恢复旧主题。
     observer.observe(root, { attributes: true, attributeFilter: ["class"] })
     return () => observer.disconnect()
   }, [commitTheme])

@@ -1,11 +1,11 @@
 import { siteConfig } from "@/config/site";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 import Link from "next/link";
 import { getIndexContent } from "@/lib/notes";
-import { AnimatedTitle } from "./AnimatedTitle";
+import { AnimatedTitle } from "@/components/layout/AnimatedTitle";
 import { siGithub, siX, siGmail } from "simple-icons";
-import { Button } from "./ui/button";
-import { SimpleIcon } from "./SimpleIcon";
+import { Button } from "@/components/ui/button";
+import { SimpleIcon } from "@/components/icons/SimpleIcon";
 
 export function SiteHeader() {
   const indexData = getIndexContent();

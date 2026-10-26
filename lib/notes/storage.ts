@@ -1,26 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { parseMarkdown } from './markdown';
+import { parseMarkdown } from '../markdown';
 import { siteConfig } from '@/config/site';
+import type { Note, NoteMetadata } from './types';
 
 const postsDirectory = path.join(process.cwd(), 'content');
-
-export interface NoteMetadata {
-  title: string;
-  date?: string;
-  created?: string;
-  updated?: string;
-  summary?: string;
-  tags?: string[];
-  [key: string]: unknown;
-}
-
-export interface Note {
-  slug: string[];
-  metadata: NoteMetadata;
-  content: string; // 添加内容字段
-  toc: string;    // 添加目录字段
-}
 
 interface RawNote {
   metadata: Record<string, unknown>;
@@ -38,7 +22,7 @@ function getNoteMetadataHelper(fileName: string, rawNote: RawNote): NoteMetadata
   let created = metadata[createdKey] as string | undefined;
   let updated = metadata[updatedKey] as string | undefined;
 
-  // 如果 Front-matter 缺失，则回退到文件系统时间
+  // 如果 YAML 元数据缺少日期，则回退到文件系统时间
   if (!created || !updated) {
     try {
       const stats = fs.statSync(fileName);
@@ -63,7 +47,7 @@ function getNoteMetadataHelper(fileName: string, rawNote: RawNote): NoteMetadata
   } as NoteMetadata;
 }
 
-export function getAllNotes() {
+export function getAllNotes(): Note[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
   }
@@ -72,7 +56,7 @@ export function getAllNotes() {
   const allNotesData = fileNames
     .filter(fileName => !fileName.endsWith('index.md')) // 过滤掉首页
     .map((fileName) => {
-      // 获取相对路径作为 slug
+      // 将相对路径转换为笔记路径片段
       const relativePath = path.relative(postsDirectory, fileName);
       const slug = relativePath.replace(/\.md$/, '').split(path.sep);
 
@@ -80,13 +64,13 @@ export function getAllNotes() {
       const rawNote = parseMarkdown(fileContents);
       const metadata = getNoteMetadataHelper(fileName, rawNote);
 
-    return {
-      slug,
-      metadata,
-      content: rawNote.content,
-      toc: rawNote.toc,
-    };
-  });
+      return {
+        slug,
+        metadata,
+        content: rawNote.content,
+        toc: rawNote.toc,
+      };
+    });
 
   const order = siteConfig.notesOrder || 'desc';
 
@@ -116,13 +100,6 @@ export function getNoteBySlug(slugArray: string[]): Note | null {
     }
   }
 
-  console.log('[Debug] Requesting note:', {
-    original: slugArray,
-    decoded: decodedSlug,
-    fullPath: fullPath,
-    exists: fs.existsSync(fullPath)
-  });
-
   if (!fs.existsSync(fullPath)) {
     return null;
   }
@@ -145,56 +122,6 @@ export function getIndexContent() {
     return parseMarkdown(fileContents, { skipToc: true });
   }
   return null;
-}
-
-export interface NoteTree {
-  name: string;
-  type: 'file' | 'directory';
-  slug?: string[];
-  children?: NoteTree[];
-}
-
-export function getNoteTree(): NoteTree[] {
-  const allNotes = getAllNotes();
-  const tree: NoteTree[] = [];
-
-  allNotes.forEach(note => {
-    let currentLevel = tree;
-    note.slug.forEach((part, index) => {
-      const isLast = index === note.slug.length - 1;
-      let existing = currentLevel.find(item => item.name === part);
-
-      if (!existing) {
-        existing = {
-          name: part,
-          type: isLast ? 'file' : 'directory',
-          slug: isLast ? note.slug : undefined,
-          children: isLast ? undefined : []
-        };
-        currentLevel.push(existing);
-      }
-      
-      if (existing.children) {
-        currentLevel = existing.children;
-      }
-    });
-  });
-
-  // 递归排序：目录在前，文件名在后
-  const sortTree = (nodes: NoteTree[]) => {
-    nodes.sort((a, b) => {
-      if (a.type !== b.type) {
-        return a.type === 'directory' ? -1 : 1;
-      }
-      return a.name.localeCompare(b.name);
-    });
-    nodes.forEach(node => {
-      if (node.children) sortTree(node.children);
-    });
-  };
-
-  sortTree(tree);
-  return tree;
 }
 
 // 递归获取目录下所有 .md 文件

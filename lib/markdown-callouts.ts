@@ -1,8 +1,8 @@
 import type { MarkdownIt, Token } from 'markdown-it';
 import { alert, type MarkdownItAlertOptions } from '@mdit/plugin-alert';
 
-// Keep the original names: CSS intentionally falls back to the note appearance
-// for types without a dedicated style, including user-defined types.
+// 保留原始类型名称；没有专属样式的类型（包括自定义类型）
+// 会通过 CSS 回退到普通笔记提示块的外观。
 const alertNames = [
   'note', 'abstract', 'summary', 'tldr', 'info', 'todo', 'tip', 'hint',
   'important', 'success', 'check', 'done', 'question', 'help', 'faq',
@@ -46,9 +46,9 @@ export function markdownCallouts(md: MarkdownIt) {
       `</div></${calloutMeta(tokens[index]).collapsible ? 'details' : 'blockquote'}>\n`,
   } satisfies MarkdownItAlertOptions);
 
-  // The alert block rule handles standard markers. Adapt only blockquotes it
-  // leaves behind (Obsidian folds, same-line bodies, unknown or empty callouts).
-  // Working on tokens leaves fences, inline code and source offsets untouched.
+  // 标准标记由提示块规则处理；这里只兼容剩余的引用块，
+  // 包括 Obsidian 折叠语法、同行正文、未知类型和空提示块。
+  // 直接处理词元，避免改动围栏代码块、行内代码和源码位置。
   md.core.ruler.after('block', 'obsidian_alert_compat', (state) => {
     const tokens = state.tokens;
     const quotes: Token[] = [];
@@ -88,8 +88,8 @@ export function markdownCallouts(md: MarkdownIt) {
         collapsible,
         defaultCollapsed: match[2] === '-',
       };
-      // Render before the outer document's TOC is collected. Calling
-      // renderInline from a renderer would run core plugins again and reset it.
+      // 在收集外层文档目录之前渲染标题；若在渲染器中调用
+      // renderInline，会再次运行核心插件并重置目录。
       meta.titleHtml = md.renderInline(meta.title, state.env);
       token.type = 'alert_open';
       token.tag = collapsible ? 'details' : 'blockquote';

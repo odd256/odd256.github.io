@@ -1,16 +1,16 @@
-import { getAllNotes, getIndexContent } from "@/lib/notes";
-import { NoteList } from "@/components/NoteList";
+import { getNoteSummaries, getIndexContent } from "@/lib/notes";
+import { NoteList } from "@/components/notes/NoteList";
 import Link from "next/link";
 import { AnimateIcon } from "@animate-ui/react/icons";
 import { ArrowRight01 as ChevronRight } from "@/components/animate-ui/icons/hugeicons/arrow-right-01";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MarkdownEnhancer } from "@/components/MarkdownEnhancer";
+import { MarkdownEnhancer } from "@/components/markdown/MarkdownEnhancer";
 
 export default function Home() {
   const indexData = getIndexContent();
-  const allNotes = getAllNotes();
+  const allNotes = getNoteSummaries();
   // 仅在首页展示前 5 篇笔记
   const latestNotes = allNotes.slice(0, 5);
 

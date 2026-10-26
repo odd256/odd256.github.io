@@ -22,10 +22,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
 };
 
-import { ThemeProvider } from "@/components/theme-provider";
-import { SiteHeader } from "@/components/SiteHeader";
-import { AppSidebar } from "@/components/AppSidebar";
-import { SiteFooter } from "@/components/SiteFooter";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { AppSidebar } from "@/components/layout/AppSidebar";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import Script from "next/script";
 
 export default function RootLayout({

@@ -6,8 +6,8 @@ import { AnimateIcon } from "@animate-ui/react/icons";
 import { ReducedMotionConfig } from "@animate-ui/react/utils/motion";
 import { Cancel01 as X } from "@/components/animate-ui/icons/hugeicons/cancel-01";
 import { createPortal } from "react-dom";
-import { CopyButton } from "@/components/CopyButton";
-import { CollapsibleCallout } from "@/components/CollapsibleCallout";
+import { CopyButton } from "@/components/markdown/CopyButton";
+import { CollapsibleCallout } from "@/components/markdown/CollapsibleCallout";
 
 interface MarkdownEnhancerProps {
   children: React.ReactNode;
@@ -67,7 +67,7 @@ export function MarkdownEnhancer({ children }: MarkdownEnhancerProps) {
         requestAnimationFrame(() => setCopyButtons(newButtons));
       }
 
-      // 处理可折叠 Callouts
+      // 处理可折叠提示块
       const calloutEls = container.querySelectorAll("details.callout.collapsible");
       const newCallouts: CalloutData[] = [];
       
@@ -143,7 +143,7 @@ export function MarkdownEnhancer({ children }: MarkdownEnhancerProps) {
         )
       )}
 
-      {/* 渲染所有动画 callouts */}
+      {/* 渲染所有带动画的提示块 */}
       {callouts.map((c, index) => 
         createPortal(
           <CollapsibleCallout 

@@ -1,16 +1,10 @@
-import { getNoteTree, getAllNotes } from "@/lib/notes";
-import { FileExplorer } from "@/components/FileExplorer";
-import { SearchBox } from "@/components/SearchBox";
+import { getSidebarData } from "@/lib/notes";
+import { FileExplorer } from "@/components/notes/FileExplorer";
+import { SearchBox } from "@/components/search/SearchBox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function AppSidebar() {
-  const noteTree = getNoteTree();
-  const allNotes = getAllNotes();
-  const searchNotes = allNotes.map(({ slug, metadata, content }) => ({
-    slug,
-    metadata,
-    content: content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim(),
-  }));
+  const { tree: noteTree, searchNotes } = getSidebarData();
 
   return (
     <aside className="lg:col-span-3">

@@ -1,10 +1,10 @@
-import { getAllNotes, getNoteBySlug } from "@/lib/notes";
-import { slugify } from "@/lib/utils";
+import { getNoteSummaries, getNoteBySlug } from "@/lib/notes";
+import { slugify } from "@/lib/notes/paths";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar } from "@/components/animate-ui/icons/hugeicons/calendar";
 import { Clock01 as Clock } from "@/components/animate-ui/icons/hugeicons/clock-01";
-import { formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/dates";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -13,10 +13,10 @@ import {
   ScrollProgressProvider,
   ScrollProgress,
 } from "@animate-ui/react/primitives/scroll-progress";
-import { MarkdownEnhancer } from "@/components/MarkdownEnhancer";
+import { MarkdownEnhancer } from "@/components/markdown/MarkdownEnhancer";
 
 export async function generateStaticParams() {
-  const notes = getAllNotes();
+  const notes = getNoteSummaries();
   return notes.map((note) => ({
     slug: note.slug.map(slugify),
   }));

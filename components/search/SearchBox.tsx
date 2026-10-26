@@ -1,5 +1,7 @@
 "use client";
 
+import type { SearchNote } from "@/lib/notes/types";
+
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Fuse from "fuse.js";
@@ -7,7 +9,9 @@ import { Input } from "@/components/ui/input";
 import { AnimateIcon } from "@animate-ui/react/icons";
 import { Search01 as Search } from "@/components/animate-ui/icons/hugeicons/search-01";
 import { Cancel01 as X } from "@/components/animate-ui/icons/hugeicons/cancel-01";
-import { cn, formatDate, slugify } from "@/lib/utils";
+import { slugify } from "@/lib/notes/paths";
+import { formatDate } from "@/lib/dates";
+import { cn } from "@/lib/utils";
 
 const SNIPPET_LENGTH = 80;
 
@@ -55,20 +59,8 @@ function Highlight({ text, query }: { text: string; query: string }) {
   );
 }
 
-interface NoteMetadata {
-  title: string;
-  date?: string;
-  summary?: string;
-  tags?: string[];
-  [key: string]: unknown;
-}
-
 interface SearchBoxProps {
-  notes: {
-    slug: string[];
-    metadata: NoteMetadata;
-    content: string;
-  }[];
+  notes: SearchNote[];
 }
 
 export function SearchBox({ notes }: SearchBoxProps) {

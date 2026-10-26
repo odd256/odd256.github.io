@@ -1,22 +1,13 @@
 "use client";
 
+import type { NoteSummary } from "@/lib/notes/types";
+
 import { motion } from "motion/react";
 import { ReducedMotionConfig } from "@animate-ui/react/utils/motion";
 import Link from "next/link";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
-import { slugify } from "@/lib/utils";
-
-interface Note {
-  slug: string[];
-  metadata: {
-    title: string;
-    date?: string;
-    summary?: string;
-    tags?: string[];
-    [key: string]: unknown;
-  };
-}
+import { slugify } from "@/lib/notes/paths";
 
 import { 
   Item,
@@ -34,7 +25,7 @@ export function NoteCard({
   index, 
   variant = "default" 
 }: { 
-  note: Note; 
+  note: NoteSummary; 
   index: number;
   variant?: "default" | "compact";
 }) {
@@ -130,13 +121,13 @@ export function NoteList({
   notes, 
   variant = "default" 
 }: { 
-  notes: Note[]; 
+  notes: NoteSummary[]; 
   variant?: "default" | "compact";
 }) {
   if (notes.length === 0) {
     return (
       <div className="text-center py-20 text-muted-foreground">
-        <p>还没有笔记，去 content/notes 下创建一个吧 👋</p>
+        <p>还没有笔记，去 content/ 下创建一个吧 👋</p>
       </div>
     );
   }

@@ -10,7 +10,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:markdown": "tsx --test lib/markdown.test.ts",
     "preview": "npm run build && npx serve out",
     "deploy": "npm run build && echo 'Ready to push \"out\" directory to GitHub'"
   },
@@ -59,7 +58,6 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
-    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

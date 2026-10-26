@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import type { NoteSummary } from "@/lib/notes/types";
+
+import { useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { NoteList } from "@/components/NoteList";
+import { NoteList } from "@/components/notes/NoteList";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -26,31 +28,20 @@ import {
 
 const ITEMS_PER_PAGE = 8;
 
-interface Note {
-  slug: string[];
-  metadata: {
-    title: string;
-    date?: string;
-    summary?: string;
-    tags?: string[];
-    [key: string]: unknown;
-  };
-}
-
 interface ArchiveClientProps {
-  initialNotes: Note[];
+  initialNotes: NoteSummary[];
 }
 
 export default function ArchiveClient({ initialNotes }: ArchiveClientProps) {
+  const searchParams = useSearchParams();
+  const initialTag = searchParams.get("tag");
+  return <ArchiveContent key={initialTag ?? ""} initialNotes={initialNotes} initialTag={initialTag} />;
+}
+
+function ArchiveContent({ initialNotes, initialTag }: ArchiveClientProps & { initialTag: string | null }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const tag = searchParams?.get("tag");
-    if (tag) setSelectedTag(tag);
-  }, [searchParams]);
+  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag);
 
   // 提取所有唯一标签及其出现次数
   const tagStats = useMemo(() => {

@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { Accordion } from "@animate-ui/react/primitives/radix-ui/accordion";
 import { Highlight, HighlightItem } from "@animate-ui/react/primitives/effects/highlight";
 import { AnimateIcon } from "@animate-ui/react/icons";
-import type { NoteTree } from "@/lib/notes";
-import { cn, slugify } from "@/lib/utils";
+import type { NoteTree } from "@/lib/notes/types";
+import { slugify } from "@/lib/notes/paths";
+import { cn } from "@/lib/utils";
 import { FolderOpen } from "@/components/animate-ui/icons/hugeicons/folder-open";
 import { File01 } from "@/components/animate-ui/icons/hugeicons/file-01";
 

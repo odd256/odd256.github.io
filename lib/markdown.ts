@@ -1,4 +1,4 @@
-import markdownIt from 'markdown-it';
+import markdownIt, { type MarkdownIt } from 'markdown-it';
 import matter from 'gray-matter';
 import { katex } from '@mdit/plugin-katex';
 import { anchor, headerLink, legacySlugify } from '@mdit/plugin-anchor';
@@ -7,20 +7,19 @@ import { tasklist } from '@mdit/plugin-tasklist';
 import { imgLazyload } from '@mdit/plugin-img-lazyload';
 import mdHighlight from 'markdown-it-highlightjs';
 import { fullEmoji } from '@mdit/plugin-emoji';
-import { slugify } from '@/lib/utils';
+import { slugify } from "@/lib/notes/paths";
 import twemoji from '@twemoji/api';
 import { load } from 'cheerio';
 import { markdownCallouts } from './markdown-callouts';
 
-// 自定义 WikiLinks 渲染插件 (处理 [[Note Name]])
-function wikiLinks(md: any) {
-  md.inline.ruler.after('emphasis', 'wikilink', (state: any, silent: boolean) => {
-    const max = state.posMax;
+// 自定义双向链接渲染插件（处理 [[笔记名称]] 语法）
+function wikiLinks(md: MarkdownIt) {
+  md.inline.ruler.after('emphasis', 'wikilink', (state, silent) => {
     if (state.src.charCodeAt(state.pos) !== 0x5B /* [ */) return false;
     if (state.src.charCodeAt(state.pos + 1) !== 0x5B /* [ */) return false;
 
-    let start = state.pos + 2;
-    let end = state.src.indexOf(']]', start);
+    const start = state.pos + 2;
+    const end = state.src.indexOf(']]', start);
     if (end === -1) return false;
 
     if (!silent) {
@@ -49,12 +48,12 @@ function applyTwemoji(html: string): string {
   const $ = load(html, {}, false);
   const ignored = 'pre, code, script, style, textarea, title, noscript, svg, math, .katex';
 
-  // Only replace text nodes so attributes, code examples, and formulas stay intact.
+  // 只替换文本节点，保留 HTML 属性、代码示例和公式。
   const textNodes = $.root().find('*').addBack().contents().filter((_, node) => node.type === 'text');
   textNodes.each((_, node) => {
     if (node.type !== 'text' || $(node).parents(ignored).length) return;
 
-    // Escape text before parsing because Twemoji returns HTML without sanitizing it.
+    // Twemoji 返回的 HTML 未经安全过滤，因此解析前先转义文本。
     const escapedText = md.utils.escapeHtml(node.data);
     const rendered = twemoji.parse(escapedText, {
       base: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/',
@@ -88,8 +87,8 @@ const md = new markdownIt({
   }
 });
 
-// Emoji tokens contain plain Unicode. Treat them as text so headings and TOC
-// include the same characters as emoji typed directly into a note.
+// 表情词元包含普通 Unicode 字符，将其按文本处理，
+// 使标题和目录中的表情与正文直接输入的表情保持一致。
 md.core.ruler.after('emoji', 'emoji_text', (state) => {
   for (const token of state.tokens) {
     for (const child of token.children ?? []) {
@@ -106,7 +105,7 @@ const defaultRender = md.renderer.rules.link_open || function(tokens, idx, optio
 md.renderer.rules.link_open = function(tokens, idx, options, env, self) {
   const hAttr = tokens[idx].attrGet('href');
   if (typeof hAttr === 'string' && hAttr.endsWith('.md') && !hAttr.startsWith('http')) {
-    // 转换为 /notes/ 路径并移除 .md
+    // 转换为站内笔记路径并移除 .md 后缀
     const newHref = hAttr.startsWith('/') 
       ? `${hAttr.replace(/\.md$/, '')}`
       : `/${hAttr.replace(/\.md$/, '')}`;
