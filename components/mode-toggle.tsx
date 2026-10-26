@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useEffect, useRef } from "react"
 import { Moon02 as Moon } from "@/components/animate-ui/icons/hugeicons/moon-02";
 import { Sun03 as Sun } from "@/components/animate-ui/icons/hugeicons/sun-03";
 import { useHydrated, useTheme } from "@wrksz/themes/client"
@@ -15,6 +16,31 @@ import {
 export function ModeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
   const mounted = useHydrated()
+  const pendingTheme = useRef<Resolved | null>(null)
+  const requestedTheme = useRef<ThemeSelection | null>(null)
+
+  const commitTheme = useCallback((nextTheme: ThemeSelection) => {
+    // An older wipe may finish after the user has already toggled again.
+    if (requestedTheme.current !== nextTheme) return
+    pendingTheme.current = null
+    setTheme(nextTheme)
+  }, [setTheme])
+
+  useEffect(() => {
+    const root = document.documentElement
+    const observer = new MutationObserver(() => {
+      const nextTheme = pendingTheme.current
+      if (!nextTheme) return
+
+      const domTheme = root.classList.contains("dark") ? "dark" : "light"
+      if (domTheme === nextTheme) commitTheme(nextTheme)
+    })
+
+    // ThemeToggler changes the class before committing its theme. Commit at that
+    // mutation so @wrksz/themes does not restore the old theme during the wipe.
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] })
+    return () => observer.disconnect()
+  }, [commitTheme])
 
   if (!mounted) {
     return (
@@ -28,7 +54,11 @@ export function ModeToggle() {
     <ThemeToggler
       theme={theme as ThemeSelection}
       resolvedTheme={resolvedTheme as Resolved}
-      setTheme={setTheme}
+      setTheme={commitTheme}
+      onImmediateChange={(nextTheme) => {
+        requestedTheme.current = nextTheme
+        pendingTheme.current = nextTheme === "system" ? null : nextTheme
+      }}
       direction="ltr"
     >
       {({ resolved, toggleTheme }) => (

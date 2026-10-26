@@ -300,7 +300,7 @@
   }
 
   .callout-title {
-    @apply flex items-center gap-1.5 py-3 list-none outline-none;
+    @apply flex items-start gap-1.5 py-3 list-none outline-none;
     color: var(--color);
     --icon-size: 18px;
   }
@@ -309,8 +309,14 @@
     display: none;
   }
 
+  .callout-title .fold-callout-icon,
+  .callout-title .callout-icon {
+    /* Center both icons on the first text line, including wrapped titles. */
+    margin-block-start: calc((1lh - var(--icon-size)) / 2);
+  }
+
   .callout-title .fold-callout-icon {
-    @apply transition-transform duration-150 motion-reduce:transition-none opacity-80 cursor-pointer self-center;
+    @apply transition-transform duration-150 motion-reduce:transition-none opacity-80 cursor-pointer;
     width: var(--icon-size);
     height: var(--icon-size);
     flex: 0 0 var(--icon-size);
@@ -341,7 +347,7 @@
   }
 
   .callout-title-inner {
-    @apply font-semibold;
+    @apply min-w-0 font-semibold;
   }
 
   .callout-title-inner strong {
@@ -349,7 +355,7 @@
   }
 
   .callout-content {
-    @apply pb-4 transition-all duration-300;
+    @apply pb-4;
   }
 
   .callout-content > *:first-child { @apply mt-0; }

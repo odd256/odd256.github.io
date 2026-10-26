@@ -116,3 +116,9 @@ Twemoji graphics are licensed under [CC BY 4.0](https://creativecommons.org/lice
 and attributed to Twitter, Inc. and other contributors. Twemoji code is MIT licensed.
 
 Run `npm run test:markdown` to check emoji, math, and Markdown rendering.
+
+# 已知问题
+
+4. EasyShare 项目没有创建
+5. 这个项目需要保留中文readme
+6. 项目结构需要进一步优化
