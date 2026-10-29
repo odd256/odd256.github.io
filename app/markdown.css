@@ -278,10 +278,24 @@
     @apply opacity-100 translate-x-0;
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1024px) {
     .prose .toc-container {
       display: none;
     }
+  }
+
+  .note-toc {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .note-toc a {
+    overflow-wrap: anywhere;
+  }
+  .note-toc img.emoji {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
   }
 
   aside .toc-container {
